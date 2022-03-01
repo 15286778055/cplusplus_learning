@@ -150,3 +150,29 @@ vector 成长是 按两倍成长
 #### - GP：将data与methods分开
 
 
+
+
+
+
+## 10 操作符重载 & 模板
+
+
+
+
+
+
+
+
+
+# 第二节
+
+## 11 分配器
+
+
+#### VC6 <>
+##### allocators
+- allocate：allocate ---> operator new ---> alloc
+- deallocate：deallocate ---> operator delete ---> free
+
+
+#### GNU2.9

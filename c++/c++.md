@@ -467,7 +467,7 @@ p595有例子
     
 
 
-# 10 specialization 模板特化
+# 10 specialization 模板特化 全特化
 
 
 泛化 --> 抽象、模板
@@ -503,12 +503,12 @@ int main() {
 
 
 
-# 11 模板偏特化
+# 11 模板偏特化 局部特化
 
 > 1. 个数上的偏
 
 ```c++
-template<typename T. typename Alloc=...>
+template<typename T, typename Alloc=...>
 class vector
 {
     ...;
@@ -532,6 +532,7 @@ class C
 };
 
 // 范围偏特化，类型为指针，也即范围偏特化
+// 指明可以是指针，可以是任意类型的指针，所以算是偏特化，如果指明是某一类型的指针，那就是全特化了
 template<typename T>
 class C<T*>
 {
