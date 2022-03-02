@@ -169,10 +169,54 @@ vector 成长是 按两倍成长
 ## 11 分配器
 
 
-#### VC6 <>
+#### VC6 <xmemory>
 ##### allocators
 - allocate：allocate ---> operator new ---> alloc
 - deallocate：deallocate ---> operator delete ---> free
 
 
-#### GNU2.9
+#### GNU2.9 <defalloc.h>
+##### allocators
+- allocate：allocate ---> operator new ---> alloc
+- deallocate：deallocate ---> operator delete ---> free
+
+#### 是同 VC6
+
+
+#### **使用 malloc 和 free 来管理内存，会带来大量额外开销，现实中区块小，额外开销占比大**
+
+#### 如右下角说明，GNU C 虽然实现了，但并未使用这个allocator，而是另有实现
+
+![11-1](pic/11-1.png)
+
+#### 实际使用 `alloc` 为了减少额外开销，所以要减少 malloc 次数
+![11-2](pic/11-2.png)
+
+
+#### alloc 实现
+![11-3](pic/11-3.png)
+
+
+#### gnu4.5以后已改回最基础的实现
+
+
+
+
+
+## 12 容器之间的实现关系与分类
+
+#### 关系图
+![12-1](pic/12-1.png)
+
+
+
+
+
+
+
+
+## 13 深度探索list（上）
+
+
+
+
