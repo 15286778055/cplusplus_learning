@@ -94,13 +94,98 @@
 
 拷贝构造、拷贝复制 没写的话，编译器自动生成
 
-针对带有私有指针的类，需要自己写**拷贝构造**和**拷贝赋值**
+#### *针对带有私有指针的类，需要自己写**拷贝构造**和**拷贝赋值***
 
 - 拷贝构造 String(const String& str);
+```c++
+#include<iostream>
+using namespace std;
+class Complex{
+public:
+    double real, imag;
+    Complex(double r,double i){
+        real = r; imag = i;
+    }
+    // const 版本
+    Complex(const Complex & c){
+        real = c.real; imag = c.imag;
+        cout<<"Copy Constructor called"<<endl ;
+    }
+    // 非 const 版本
+    Complex(Complex & c){
+        real = c.real; imag = c.imag;
+        cout<<"Copy Constructor called"<<endl ;
+    }
+};
+
+int main(){
+    Complex cl(1, 2);
+    Complex c2 (cl);  //调用复制构造函数
+    cout<<c2.real<<","<<c2.imag;
+    return 0;
+}
+```
 - 拷贝赋值 String& operator= (const String& str); 一定要在操作符=重载中进行**自我检测**，否则如果两个指针指向同一对象，会造成对象丢失（因为要先清空拷贝的对象）
 - 析构函数：~String(); 类的对象死亡的时候会被调用
 
 
+#### 拷贝构造函数被调用的三种情况
+#### 三种情况均为 “构造” --- 即 “初始化”
+1. 当用一个对象去初始化同类的另一个对象时，会引发复制构造函数被调用。
+```c++
+ClassA a(b);
+ClassA a = b;
+```
+2. 函数参数传递，作为形参的对象，是用复制构造函数初始化
+```c++
+#include<iostream>
+using namespace std;
+class A{
+public:
+    A(){};
+    A(A & a){
+        cout<<"Copy constructor called"<<endl;
+    }
+};
+
+void Func(A a){ }
+
+int main(){
+    A a;
+    Func(a);
+    return 0;
+}
+
+// 理解
+class 形参 = 实参，其实就是第一种情况
+```
+3. 作为函数返回值的对象是用复制构造函数初始化的，而调用复制构造函数时的实参，就是 return 语句所返回的对象
+```c++
+#include<iostream>
+using namespace std;
+class A {
+public:
+    int v;
+    A(int n) { v = n; };
+    A(const A & a) {
+        v = a.v;
+        cout << "Copy constructor called" << endl;
+    }
+};
+
+A Func() {
+    A a(4);
+    return a;
+}
+
+int main() {
+    cout << Func().v << endl;
+    return 0;
+}
+
+// 理解
+class 返回值 = 函数内部的返回值，其实也是第一种情况
+```
 
 
 # 8 堆、栈与内存管理
