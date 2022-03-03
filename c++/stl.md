@@ -194,6 +194,7 @@ vector 成长是 按两倍成长
 
 
 #### alloc 实现
+#### 16个指针 分别对应 8 2*8 3*8 ... 16*8字节的空间
 ![11-3](pic/stl/11-3%20alloc.png)
 
 
@@ -232,3 +233,71 @@ vector 成长是 按两倍成长
 
 ## 14 深度探索list（下）
 
+#### 新版本4.9的改动
+
+代码更简洁、合理
+
+
+
+
+
+
+
+
+## 迭代器的设计原则、iterator traits
+
+#### iterator 需要遵循的原则
+#### iterator associated type
+ - iterator_category
+ - difference_type
+ - value_type
+ - reference（c++标准库未使用）
+ - pointer（c++标准库未使用）
+
+```c++
+template<class T, class Ref, class Ptr>
+struct __list_iterator
+{
+  typedef bidirectional_iterator_tag iterator_categoty;
+  typedef T value_type;
+  typedef Ptr pointer;
+  typedef Ref reference;
+  typedef ptrdiff_t difference_type;
+}
+```
+
+
+### traits
+#### Iterator Traits 用以分离 class iterators 和no-class iterators（native pointer）
+
+#### 便特化实现 Iterator Traits
+![15-1](pic/stl/15-1.png)
+
+![15-2](pic/stl/15-2.png)
+
+
+
+
+
+
+
+## 16 vector深度探索
+
+三根指针（iterator） GNU2.9 12个字节， GNU4.9 24个字节
+- start
+- finish
+- end_of_storage
+
+连续开辟空间提供 `[]` 操作符
+
+
+大量调用拷贝构造函数和析构函数
+
+
+#### vector 是连续存储空间，其 iterator 是一个指针，而不是一个 class ，利用到 traits 获取iterator 应当定义的类型
+
+#### 疑问？iterator 写成类模版，或者写成 traits 类模版，不都是类模版吗，或者与开销有关？？？
+
+
+
+拷贝构造函数
