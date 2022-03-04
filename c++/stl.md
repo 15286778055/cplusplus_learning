@@ -340,9 +340,36 @@ struct __list_iterator
 
 
 
-## 18 deque 、 queue 、 stack
+## 18 deque 、 queue 、 stack（上）
 
-### deque 结构
+#### deque 结构
 ![18-1](pic/stl/18-1.png)
+
+#### deque 源码
+- iterator start;
+- iterator finish;
+- map_pointer map;  // 是一个 T**
+- size_type map_size;  // 指的是单个存储区的大小
+![18-2](pic/stl/18-2.png)
+
+#### iterator
+- T* cur;
+- T* first;
+- T* last;
+- map_pointer node; 是一个 T**
+![18-3](pic/stl/18-3.png)
+
+#### deque<T>::insert()
+![18-4-1](pic/stl/18-4-1.png)
+##### insert_aux, 判断怎么移动开销最小，并逐个移动
+![18-4-2](pic/stl/18-4-2.png)
+
+
+
+
+## 19 deque 、 queue 、 stack（下）
+
+#### deque 如何模拟连续空间
+
 
 
