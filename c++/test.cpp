@@ -14,6 +14,13 @@ public:
 
 };
 
+ostream& operator<<(ostream& os, const A& a) {
+
+    os << "a = " << endl;
+
+    return os;
+}
+
 class B {
 public:
     B() {
@@ -45,7 +52,26 @@ void error_msg(initializer_list<int> il) {
 
 int get(int);
 
+template<class T>
+class D {
+public:
+    D() {
+        cout << "Constructor" << endl;
+    }
+    typedef T value_type;
+    T data;
+
+};
+
+
 int main(int argc, char **argv) {
+
+    A g = A();
+    D<A> d;
+    typename D<A>::value_type i;
+    cout << "i = " << i << endl;
+
+
 
     // int a[] = {0, 1, 2};
     // cout << cbegin(a) + 3 << endl;

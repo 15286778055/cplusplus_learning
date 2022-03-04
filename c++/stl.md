@@ -270,7 +270,7 @@ struct __list_iterator
 ### traits
 #### Iterator Traits 用以分离 class iterators 和no-class iterators（native pointer）
 
-#### 便特化实现 Iterator Traits
+#### 偏特化实现 Iterator Traits
 ![15-1](pic/stl/15-1.png)
 
 ![15-2](pic/stl/15-2.png)
@@ -290,14 +290,59 @@ struct __list_iterator
 
 连续开辟空间提供 `[]` 操作符
 
+#### 结构
+![16-1](pic/stl/16-1.png)
 
-大量调用拷贝构造函数和析构函数
+#### push_back 函数
+![16-2](pic/stl/16-2.png)
+
+![16-3](pic/stl/16-3.png)
+
+##### 以上大量调用拷贝构造函数和析构函数
+
+#### G2.9 vector‘s iterator
+![16-4](pic/stl/16-4.png)
 
 
-#### vector 是连续存储空间，其 iterator 是一个指针，而不是一个 class ，利用到 traits 获取iterator 应当定义的类型
+#### G2.9 vector 是连续存储空间，其 iterator 是一个指针，而不是一个 class ，利用到 traits 获取iterator 应当定义的类型
+
+#### G4.9 vector‘s iterator
+![16-5](pic/stl/16-5.png)
+
+![16-6](pic/stl/16-6.png)
 
 #### 疑问？iterator 写成类模版，或者写成 traits 类模版，不都是类模版吗，或者与开销有关？？？
 
 
 
-拷贝构造函数
+
+
+
+
+
+
+
+## 17 array 、 forward_list
+
+#### TR1
+![17-1](pic/stl/17-1.png)
+
+#### G4.9
+![17-2](pic/stl/17-2.png)
+
+#### forward_list
+![17-3](pic/stl/17-3.png)
+
+
+
+
+
+
+
+
+## 18 deque 、 queue 、 stack
+
+### deque 结构
+![18-1](pic/stl/18-1.png)
+
+
