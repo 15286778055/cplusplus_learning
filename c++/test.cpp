@@ -61,10 +61,16 @@ public:
     typedef T value_type;
     T data;
 
+
+    const static int i = 9;
+
 };
 
 
 int main(int argc, char **argv) {
+
+    cout << D<int>().i << endl;
+    cout << D<int>::i << endl;
 
     A g = A();
     D<A> d;
