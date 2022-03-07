@@ -372,4 +372,86 @@ struct __list_iterator
 #### deque 如何模拟连续空间
 
 
+#### deque 扩展时，因为时 vector 实现的，依然会成 2 倍扩展，但是为了满足前后进队，所以扩充复制的时候，会复制到新空间的中段
 
+
+
+
+
+
+# 关联式容器
+- 红黑树
+- 散列表
+
+
+## 20 RB-Tree 红黑树
+
+#### 一种平衡二分搜索树
+
+
+#### 第三个 typename 是实现仿函数，重载 operator() ，但底层怎么用的不清楚  g2.91里面就是 identity() 函数
+
+
+
+
+
+
+
+
+## 21 set、multiset
+
+
+### 一种 container adapter
+
+#### set 借由 const_iterator 无法改变key
+
+
+
+
+
+
+
+
+## 22 map、multimap
+
+#### map 借由 cosnt Key , 无法改变key
+
+
+
+
+
+
+
+
+
+## 23 hashtable 上
+
+
+#### 元素个数大于篮子个数，就需要 rehashing 
+#### gnu c2.9 中 由素数 53 开始，扩充时找 106 = 53 * 2 附近的素数
+
+![23-1](pic/stl/23-1.png)
+
+
+
+
+
+## 24 hashtable 下
+
+#### 模版中 大多数为仿函数对象  function-like class
+- hash 仿函数
+- compare 仿函数
+- ExtractKey 仿函数
+
+
+
+
+
+
+## unordered_container
+
+## 25 26 hash_set hash_multiset hash_map hash_multimap
+
+
+
+![25-1](pic/stl/25-1.png)
