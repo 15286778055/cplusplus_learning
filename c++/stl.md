@@ -455,3 +455,149 @@ struct __list_iterator
 
 
 ![25-1](pic/stl/25-1.png)
+
+
+
+
+
+
+## 算法
+
+## 27 算法的形式
+
+#### 仿函数、迭代器、适配器使用类模版的原因，而不是单个单数的原因，或许是为了适配GP编程
+
+![27-1](pic/stl/27-1.png)
+
+
+
+
+
+
+## 28 迭代器分类
+
+- struct input_iterator_tag {};
+- struct output_iterator_tag {};
+- struct forward_iterator_tat: public input_iterator_tag {};
+- struct bidirectional_iterator_tag: public forward_iterator_tag {};
+- struct random_access_iterator_tag: public bidirectional_iterator_tag {};
+
+
+
+
+
+
+## 29 迭代器分类对算法的影响
+
+
+#### 算法效率与判断迭代器类型有很大关系
+
+
+
+
+
+## 30 算法源代码剖析（11个例子）
+
+
+#### 1 accumulate
+
+##### 两个版本
+
+```c++
+// 版本一
+template<class InputIterator, class T>
+T accumulate(InputIterator first, InputIterator last, T init)
+{
+  for (; first != last; ++first)
+    init = init + *first;
+  return init;
+}
+
+// 版本二，接收特定的 accumalate 操作的函数
+template<class InputIterator, class T, class BinaryOperation>
+T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation binary_op)
+{
+  for ( ; first != last; ++first)
+    init = binary_op(init, *first);
+  return init;
+}
+```
+
+#### 例子里面 那个函数式的操作，可以传入：
+- 函数
+- 仿函数的对象
+
+# 那么上述这两种具体区别在哪
+
+![30-1](pic/stl/30-1.png)
+
+
+
+
+
+
+#### 2 for_each
+
+```c++
+template<class InputIterator, class Function>
+Function for_each(InputIterator first, InputIterator last, Function f)
+{
+  for ( ; first != last; ++first)
+    f(*first);
+  return f;
+}
+```
+
+
+
+
+
+#### 3 replace replace_if replace_copy
+
+![30-2](pic/stl/30-2.png)
+
+
+
+
+
+#### 4 count count_if
+
+##### 注意自带有 count 函数的容器
+
+![30-3](pic/stl/30-3.png)
+
+
+
+
+
+#### 5 find find_if
+
+##### 注意自带有 find 函数的容器
+
+![30-4](pic/stl/30-4.png)
+
+
+
+
+#### 6 sort
+
+![30-5](pic/stl/30-5.png)
+
+
+
+
+#### 关于 reverse iterator , rbegin(), rend()
+
+##### iterator adapter
+
+![30-6](pic/stl/30-6.png)
+
+
+
+
+#### 7 binary_search
+
+![30-7](pic/stl/30-7.png)
+
+
+

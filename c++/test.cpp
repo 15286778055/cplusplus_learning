@@ -2,6 +2,7 @@
 #include <vector>
 #include <cctype>
 #include <initializer_list>
+#include <typeinfo>
 
 using namespace std;
 
@@ -69,6 +70,11 @@ public:
 
 int main(int argc, char **argv) {
 
+    A z;
+    int y;
+    cout << "z 的类型" << typeid(z).name() << endl;
+    cout << "y 的类型" << typeid(y).name() << endl;
+    
     cout << D<int>().i << endl;
     cout << D<int>::i << endl;
 
