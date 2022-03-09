@@ -525,9 +525,9 @@ T accumulate(InputIterator first, InputIterator last, T init, BinaryOperation bi
 
 #### 例子里面 那个函数式的操作，可以传入：
 - 函数
-- 仿函数的对象
+- 仿函数的对象（仿函数）
 
-# 那么上述这两种具体区别在哪
+# 那么 `函数` `仿函数` 具体区别在哪
 
 ![30-1](pic/stl/30-1.png)
 
@@ -590,6 +590,8 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 ##### iterator adapter
 
+##### *但是，这个反向迭代器需要++，那么应该需要对 reverse iterator 重载 `++` ，调用一般 iterator中的 `--` ，应该即可*
+
 ![30-6](pic/stl/30-6.png)
 
 
@@ -600,4 +602,54 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 ![30-7](pic/stl/30-7.png)
 
 
+
+
+
+
+## 31 仿函数 functors 、函数对象
+
+### function-like class ，重载 `operator()`
+
+### `函数` 与 `仿函数` 的区别，为什么要有 `仿函数`
+
+
+#### stl 中自带的 仿函数
+![31-1](pic/stl/31-1.png)
+
+
+
+
+#### G2.9 非c++标准的 仿函数
+![31-2](pic/stl/31-2.png)
+
+
+
+
+#### 函数对象、仿函数都可以实现的功能。自实现的 仿函数 也可以不继承
+
+#### “体系” 的观念
+![31-3](pic/stl/31-3.png)
+
+
+
+
+#### 仿函数 可适配 的条件
+- 继承 unary_function
+- 继承 binary_function
+##### 两者中有 typedef 类型名
+
+![31-4](pic/stl/31-4.png)
+
+
+
+### 为什么要继承 unary_function binary_function ??
+
+
+
+
+
+
+
+
+## 32 adapter
 
