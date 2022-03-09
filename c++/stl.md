@@ -625,7 +625,7 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 
 
-#### 函数对象、仿函数都可以实现的功能。自实现的 仿函数 也可以不继承
+#### 函数对象、仿函数都可以实现的功能。自实现的 仿函数 也可以不继承 unary_function binary_function
 
 #### “体系” 的观念
 ![31-3](pic/stl/31-3.png)
@@ -641,7 +641,7 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 ![31-4](pic/stl/31-4.png)
 
 
-
+### 后续回答
 ### 为什么要继承 unary_function binary_function ??
 
 
@@ -652,4 +652,21 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 
 ## 32 adapter
+
+#### 改造器，针对 XX 做出修改，接口调整
+
+#### 为了满足一些接口、实现一些功能，针对已有的对象，所做出的调整
+#### 如：queue、stack，基于deque做出调整
+
+- container adapter
+- iterator adapter
+- function adapter
+
+#### 实现一个已有功能的方式
+- 继承
+- 内含（composition）
+
+#### Adapter 实现方式：`composition`
+
+
 
