@@ -670,3 +670,33 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 
 
+
+
+
+
+## 33 Binder2nd
+
+#### 辅助函数价值：*函数模版可以做实参类型推导*
+
+
+![33-1](pic/stl/33-1.png)
+
+
+
+#### 1 问答式，避免 runtime error
+传递两个参数的地方 40，*first
+严格的，40两个传递的地方都指明了应该是的类型
+
+
+#### 2 对应 31中的 仿函数 可适配 的条件。回答了31种最后问的问题，为什么要继承 unary_function binary_function ??
+- 继承 unary_function
+- 继承 binary_function
+##### 两者中有 typedef 类型名
+
+
+
+#### 3 为了作为其他适配器的参数，binder2nd又继承了unary_function
+
+
+
+#### 4 问个问题，不这么用行不行？？？
