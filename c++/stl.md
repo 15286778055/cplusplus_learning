@@ -775,3 +775,73 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 ![39-1](pic/stl/39-1.png)
 
 ![39-2](pic/stl/39-2.png)
+
+
+
+
+
+## 32-39 适配器总结
+
+#### 容器适配器
+###### 比如 stack、queue 使用了 deque，实现方式为 composition，如果是继承，相当于对所有接口都开放了，不利于原来的封装
+
+#### 函数适配器
+###### 本质是实现另一个版本的 `函数对象（仿函数）` 
+- 实现类模版的 `operator()`
+- 辅助函数：利用辅助函数的实参类型推导，传递给对应的类模版
+
+#### 迭代器适配器
+###### 本质是实现另一个版本的 `迭代器` 模版
+- 需要重载对应的 `操作符、函数` 
+- 看情况是否需要辅助函数
+
+
+
+
+
+
+## 第四讲 标准库中非STL部分
+
+## 40 一个万用的 hash function
+
+#### 实现便特化的方式
+- 1、2    类模版重载 `operator()` 
+
+![40-1](pic/stl/40-1.png)
+
+- 3 struct hash 便特化
+
+![40-2](pic/stl/40-2.png)
+
+
+#### hash
+
+![40-3](pic/stl/40-3.png)
+
+
+
+
+
+
+
+## 41 tuple
+
+#### tuple 使用
+![41-1](pic/stl/41-1.png)
+
+#### tyuple 实现方式：递归继承
+![41-2](pic/stl/41-2.png)
+
+
+
+
+
+
+## 42 type traits
+
+
+
+
+
+
+
