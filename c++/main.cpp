@@ -1,5 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+#include <functional>
+
+
+using namespace std::placeholders;
 
 typedef struct node NODE;
 

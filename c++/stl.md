@@ -700,3 +700,52 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 
 #### 4 问个问题，不这么用行不行？？？
+
+
+
+
+
+
+
+
+
+
+
+## 34 not1
+
+同上
+
+
+
+
+
+
+
+
+
+## 35 新适配器 bind
+
+![35-1](pic/stl/35-1.png)
+
+![35-2](pic/stl/35-2.png)
+
+
+
+
+
+
+
+## *迭代器适配器*
+
+## 36 迭代器适配器：reverse_iterator
+
+##### 实现
+![36-1](pic/stl/36-1.png)
+
+
+
+
+
+
+## 37 迭代器适配器：inserter
+
