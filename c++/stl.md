@@ -839,7 +839,24 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 ## 42 type traits
 
+## 头文件 <type_traits>
 
+#### type traits 使用
+![42-1](pic/stl/42-1.png)
+
+
+
+
+## 43 type traits 实现
+
+#### is_void 实现
+![43-1](pic/stl/43-1.png)
+
+#### is_integral 实现
+![43-2](pic/stl/43-2.png)
+
+#### 找不到代码，由编译器实现部分
+![43-3](pic/stl/43-3.png)
 
 
 

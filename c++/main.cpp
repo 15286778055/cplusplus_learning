@@ -1,6 +1,6 @@
 #include <iostream>
 #include <functional>
-
+#include <type_traits>
 
 using namespace std::placeholders;
 
@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
         printf("%d\n", j);
     }
 
-    
+    std::cout << std::is_void<void>().value << std::endl;
 
  
 
