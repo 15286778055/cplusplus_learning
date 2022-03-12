@@ -749,3 +749,29 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 ## 37 迭代器适配器：inserter
 
+##### 思想：就是为了改变copy中的 `operator=` 操作符的作用，需要对这个做出重载。辅助函数帮助返回一个新的迭代器对象，替换原本应该返回的迭代器对象，然后对这个 `insert_iterator` 迭代器重载 `operator=` 操作符，完成操作
+
+![37-1](pic/stl/37-1.png)
+
+
+
+
+
+
+## *x适配器*
+
+## 38 ostream_~~iterator~~
+
+##### 这里严格来说，也不算是迭代器，完全忽略了迭代器指针的操作，也是针对 copy函数 中的操作，去重载这些操作符，完成ostream的操作
+
+![38-1](pic/stl/38-1.png)
+
+
+
+
+
+## 39 istream_~~iterator~~
+
+![39-1](pic/stl/39-1.png)
+
+![39-2](pic/stl/39-2.png)
