@@ -759,8 +759,10 @@ double imag(const double im) {}
 ```
 
 **两者的 `signature` 一致，二者不能同时存在，是否为常量成员函数也是 `函数签名` 的一部分。**
-
+**可以同时存在，但是调用会有歧义**
 ![reference注意点](pic/reference.png)
+
+
 
 
 

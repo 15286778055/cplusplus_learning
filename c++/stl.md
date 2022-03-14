@@ -729,6 +729,8 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 ![35-2](pic/stl/35-2.png)
 
+![35-3](pic/stl/35-3.png)
+
 
 
 
@@ -857,6 +859,35 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 
 #### 找不到代码，由编译器实现部分
 ![43-3](pic/stl/43-3.png)
+
+
+# *有个问题，那种获取 type trais 没有声明对象，怎么获取的？*
+
+
+
+
+
+
+## 44 cout
+
+#### *重载*
+
+
+
+
+
+## 45 movable 元素对于 `容器` 速度效能的影响
+
+- 浅拷贝
+- 深拷贝
+
+#### COW（copy on write）写时复制
+
+
+## 46 测试
+
+
+
 
 
 
