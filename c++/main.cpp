@@ -8,9 +8,6 @@ typedef struct node NODE;
 
 std::ostream& operator<< (std::ostream& os, const std::string& s);
 
-void set(const int& i);
-void set(const int i);
-
 int main(int argc, char **argv) {
 
 
@@ -23,12 +20,12 @@ int main(int argc, char **argv) {
     }
 
     std::cout << std::is_void<void>().value << std::endl;
+    std::cout << std::is_void<void>::value << std::endl;
 
 
     std::cout << std::string("get") << std::endl;
 
     const int i = 3;
-    set(3);
 
     return 0;
 }

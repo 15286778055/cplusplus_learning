@@ -861,7 +861,8 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 ![43-3](pic/stl/43-3.png)
 
 
-# *有个问题，那种获取 type trais 没有声明对象，怎么获取的？*
+### q: *有个问题，那种获取 type trais 没有声明对象，怎么获取的？*
+### a: 看了源码，那个value是一个静态变量，所以可以直接 is_void<void>::value 访问
 
 
 
@@ -879,6 +880,53 @@ Function for_each(InputIterator first, InputIterator last, Function f)
 ## 45 movable 元素对于 `容器` 速度效能的影响
 
 - 浅拷贝
+```c++
+class MyString {
+
+private:
+  char* _data;
+  size_t _len;
+
+public:
+  // 移动拷贝构造
+  // 构造函数的初始值列表执行 “浅拷贝”
+  // 函数内部将指针指向NULL，避免同时两个指针指向一块地址
+  MyString(MyString&& str): _data(str._data), _len(str._len) {
+    str._len = 0;
+    str._data = NULL;
+  }
+
+  // 移动赋值构造
+  MyString& operator=(MyString&& str) noexcept {
+    if (this != &str) {
+      if (_data) delete _data;
+      _len = str._len;
+      _data = str._data;
+      str._len = 0;
+      str._data = NULL;  // 避免delete(in dtor)
+    }
+    return *this;
+  }
+
+}
+
+// 如果 MyString 作为 unrodered container 的对象，还需要实现 hash
+namespace std
+{
+//偏特化的hash
+template<>
+struct hash<MyString> {
+  size_t operator()(const MyString& s) const noexcept {
+    // 调用 string 的 hash
+    return hash<string>()(string(s.get()));
+  }
+}
+}
+
+// 使用
+M c11(c1);
+M c12(std::move(c1));
+```
 - 深拷贝
 
 #### COW（copy on write）写时复制
