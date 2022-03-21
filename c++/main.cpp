@@ -2,37 +2,67 @@
 #include <functional>
 #include <type_traits>
 
-using namespace std::placeholders;
+using namespace std;
 
-typedef struct node NODE;
+class Screen {
+public:
+    Screen(int x): i(x) {}
+    int get() { return i; }
+    // 重载
+    void* operator new(size_t);
+    void operator delete(void*, size_t);
 
-std::ostream& operator<< (std::ostream& os, const std::string& s);
+private:
+    int i;
+    Screen *next;
+    static Screen *freeStore;
+    static const int screenChunk;
+};
+// 类内静态变量再次声明，为什么？？
+Screen* Screen::freeStore = 0;
+const int Screen::screenChunk = 24;
 
-int main(int argc, char **argv) {
-
-
-    if (argc == 2) {
-        printf("%s\n", argv[1]);
-        int i = argv[1][0] - '0';
-        int j = argv[1][1] - '0';
-        printf("%d\n", i);
-        printf("%d\n", j);
+void* Screen::operator new(size_t size) {
+    Screen *p;
+    if (!freeStore) {
+        // linked list 是空的，所以申请一大截
+        size_t chunk = screenChunk * size;
+        freeStore = p = reinterpret_cast<Screen*>(new char[chunk]);
+        // 将一大块分割成片，当作 linked list 串接起来
+        for (; p != &freeStore[screenChunk - 1]; ++p)
+            p->next = p + 1;
+        p->next = 0;
     }
-
-    std::cout << std::is_void<void>().value << std::endl;
-    std::cout << std::is_void<void>::value << std::endl;
-
-
-    std::cout << std::string("get") << std::endl;
-
-    const int i = 3;
-
-    return 0;
+    p = freeStore;
+    freeStore = freeStore->next;
+    return p;
 }
 
-std::ostream& operator<< (std::ostream& os, const std::string& s) {
+void Screen::operator delete(void *p, size_t) {
+    // 将 deleted object 插回 free list 前端
+    (static_cast<Screen*>(p))->next = freeStore;
+    freeStore = static_cast<Screen*>(p);
+}
 
-    std::cout << "you get!" << std::endl;
+int main() {
 
-    return os;
+    cout << sizeof(Screen) << endl;
+
+    size_t const N = 100;
+    Screen *p[N];
+
+    for (int i = 0; i < N; ++i) {
+        p[i] = new Screen(i);
+    }
+
+    for (int i = 0; i < 10; ++i) {
+        cout << p[i] << endl;
+    }
+
+    for (int i = 0; i < N; ++i) {
+        delete p[i];
+    }
+
+
+    return 0;
 }
