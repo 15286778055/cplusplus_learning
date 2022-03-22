@@ -2,10 +2,10 @@
 # c++内存管理
 
 - 第一讲：primitives
-- 第二讲：malloc/free
-- 第三讲：std::allocator
-- 第四讲：other allocator
-- 第五讲：loko::allocator
+- 第二讲：std::allocator
+- 第三讲：malloc/free
+- 第四讲：loko::allocator
+- 第五讲：other allocator
 
 
 
@@ -387,3 +387,104 @@ allocator Foo::myAlloc;
 
 #### 使用宏减轻代码量
 ![15-1](pic/memory/15-1.png)
+
+
+
+
+
+
+
+
+
+## 16 new handler
+
+#### 标准库上的实现
+![16-1](pic/memory/16-1.png)
+
+#### new handler使用
+#### std::set_new_handler(函数名)
+![16-2](pic/memory/16-2.png)
+
+#### c++11 新特性 default delete
+- 构造、拷贝构造、拷贝复制、析构 可有
+- operator new & delete 可有 delete
+
+
+
+
+
+
+
+# 第二讲 std::allocator
+
+
+## 17 VC6 malloc
+
+
+
+
+
+
+
+## 18 19 VC6 & BC5 标准分配器之实现
+
+#### VC6 & BC5 的allocator只是以 ::operator new & delete 完成 allocate() 和 deallocate() ，没有特殊设计。
+
+
+
+
+
+
+
+## 20 GNU C 2.9 标准分配器实现
+
+## 有实现和上面两个版本一样的实现，但实现的标准库并未使用这个版本
+## 使用的 不是 std::allocator ，而是 std::alloc
+
+
+
+
+
+
+## 21 G2.9 std::alloc  VS G4.9 __pool_alloc
+
+#### 这两个换汤不换药
+
+
+
+
+
+## 22 G4.9 标准分配器之实现 体制内的 `allocator`
+
+#### allocator只是以 ::operator new & delete 完成 allocate() 和 deallocate() ，没有特殊设计。
+
+
+
+
+
+
+## 23 G2.9 std::alloc
+
+#### 16根指针
+![23-1](pic/memory/23-1.png)
+
+#### 嵌入式指针
+![23-2](pic/memory/23-2.png)
+
+
+
+## 24 25 26 G2.9std_alloc运行一瞥
+
+
+
+
+
+## 27 G2.9 std::alloc源码剖析-上
+
+#### 问题：
+- deallocate中，如何避免 指针p 并非有 alloc 分配出去的
+- deallocate中，如何避免 指针p 所指向的大小不是 8 的倍数
+
+#### A：
+- 第一个问题，确实这么做不好
+- 第二个问题，看看怎么避免分配的时候有 不是8的倍数 的情况，再避免回收的时候 不是8的倍数 的情况

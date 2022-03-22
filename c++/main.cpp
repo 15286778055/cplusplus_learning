@@ -1,7 +1,7 @@
 #include <iostream>
 #include <functional>
 #include <type_traits>
-
+#include <ext/pool_allocator.h>
 using namespace std;
 
 class Screen {
@@ -44,12 +44,20 @@ void Screen::operator delete(void *p, size_t) {
     freeStore = static_cast<Screen*>(p);
 }
 
+void noMoreMemory() {
+    cerr << "out of memory" << endl;
+    abort();
+}
+
 int main() {
+    // vector<string, __gnu_cxx::__pool_alloc<int>> vec;
+    set_new_handler(noMoreMemory);
 
     cout << sizeof(Screen) << endl;
+    ::operator new(512);
 
     size_t const N = 100;
-    Screen *p[N];
+    Screen *p[100000000000000];
 
     for (int i = 0; i < N; ++i) {
         p[i] = new Screen(i);
