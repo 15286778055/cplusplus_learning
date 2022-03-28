@@ -893,7 +893,7 @@ public:
   // 函数内部将指针指向NULL，避免同时两个指针指向一块地址
   MyString(MyString&& str): _data(str._data), _len(str._len) {
     str._len = 0;
-    str._data = NULL;
+    str._data = nullptr;
   }
 
   // 移动赋值构造
@@ -903,7 +903,7 @@ public:
       _len = str._len;
       _data = str._data;
       str._len = 0;
-      str._data = NULL;  // 避免delete(in dtor)
+      str._data = nullptr;  // 避免delete(in dtor)
     }
     return *this;
   }

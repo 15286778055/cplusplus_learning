@@ -479,7 +479,7 @@ allocator Foo::myAlloc;
 
 
 
-## 27 G2.9 std::alloc源码剖析-上
+## 27 28 29 30 G2.9 std::alloc源码剖析-上
 
 #### 问题：
 - deallocate中，如何避免 指针p 并非有 alloc 分配出去的
@@ -490,8 +490,193 @@ allocator Foo::myAlloc;
 - 第二个问题，看看怎么避免分配的时候有 不是8的倍数 的情况，再避免回收的时候 不是8的倍数 的情况
 
 
+## 批斗
+
+#### 系统设计：没有指针指向cookie，无法向操作系统归内存
+
+![27-2](pic/memory/27-2.png)
 
 
 
-## 28 G2.9 std::alloc源码剖析-中
+# 有点问题
+# 右值引用
+# 下面这张图理解 拷贝构造、移动拷贝构造
+![27-1](pic/memory/27-1.png)
+
+
+
+
+
+## 31 G4.9 pool_allocator
+
+
+
+
+
+
+
+
+# 第三讲 malloc / free
+
+## 32 VC6内存分配 VS VC10内存分配
+
+#### SBH  small block heap
+
+
+
+
+
+
+## 33~44 VC6 内存分配 malloc & free
+
+
+### 如何理解
+
+##### 前几次调用都是在计算整个管理空间所需要的 size-大小，`_sbh_alloc_block` 开始在真正分配空间。
+
+##### size 计算
+###### 1 进入 debug malloc模式 or malloc
+![32-1](pic/memory/32-1.png)
+
+###### 2 对应1 nsize + debug（信息+无人区0xfdfdfdfd）（32+4=36字节）
+![32-2](pic/memory/32-2.png)
+
+###### 3 nsize + debug + cookie（2*4）+padding（对齐16倍数）
+![32-3](pic/memory/32-3.png)
+
+###### 这里有两张之前的图，可以对应上：debug模式 & 非debug模式，new & new[] ， new[]多四个字节记录几个
+![动态分配所得的内存块](pic/complex_string_in_debug_release_mode.png)
+
+![动态分配所得的内存块](pic/complex_string_multi_in_debug_release_mode.png)
+
+
+
+
+#### 1 管理内存所需要的数据结构
+
+
+- 16 个 header，每个 header 管理 1Mb
+- 1 个 header 两个指针，一根指针 指向 虚地址空间，一根指针 指向 1个 region
+- 1 个 region 包含 32个 group 和 32*64的数组。32 个 group 管理 1Mb ，1 个 group 管理 32 kb
+- 1个 group 包含 1个 cntEntries 和 64个 双指针，是一个 counter，malloc +1，free -1。 cntEntries=0 表示全回收
+- 1个 group 32k，分为 8个 page，1个page是4k
+- 64个双指针，分别管理 16字节 32字节 64字节 ... ... 1008字节 大于等于1024字节，当每一个page是大于 1k时，则挂在64组双指针的最后一组双指针上，构成 `循环双向链表` ，如下图
+
+![33-0](pic/memory/33-0.png)
+
+![33-0-1](pic/memory/33-0-1.png)
+
+![33-0-2](pic/memory/33-0-2.png)
+
+
+#### 2 如何 malloc
+###### header ---> region ---> “由左到右，由上至下”查32*64数组
+![33-0-3](pic/memory/33-0-3.png)
+
+#### 3 如何 free
+###### 确定 free 的指针 指向哪块内存
+![33-0-5](pic/memory/33-0-5.png)
+
+###### 是否需要合并，合并与否都要针对性 改变指针指向
+![33-0-4](pic/memory/33-0-4.png)
+
+
+#### 上下cookie的作用
+- 始终记录整个区块的大小
+- 利于 `free` 时进行 `区块合并` 
+
+`区块合并` ：如下，当中间的 300 内存被 free 时，考虑上下区块是否有 内存块 可以合并。考虑上区块，找到上区块的下cookie，查看最后一个字节是否为0，合并；考虑到下区块，找到下区块的上cookie，查看最后一个字节是否为0，合并。
+![33-1](pic/memory/33-1.png)
+
+
+
+
+
+#### q：如何确定 counter 全回收
+#### a：malloc一次，对于group的 counter+1； free一次，对应group的 counter-1。因为 free 的 内存块 肯定是之前 malloc 出去的内存块，所以不存在 free 的是任意大小内存的问题，当 `counter=0` 满足时，这时就是一个 `全回收` 。
+
+
+#### 全回收的处理：
+###### 管理平台手中尽可能留有一个全回收，当在此来全回收时，前者 还给 OS ，后者接着被管理，当 malloc出去的内存块属于手中的全回收时，全回收被分配出去，下图有说明。
+![33-2](pic/memory/33-2.png)
+
+
+
+## *malloc & free 的实现肯定是先于 GNUC std中的alloc，管理分配得到的内存空间，设计管理方面都有异曲同工之妙*
+- **G2.9中的stl中 alloc 管理的 16 根指针。**
+- **VC6 管理的 32组指针，其中任意一组指针在功能上 与 G2.9 alloc 中 16根指针 异曲同工之妙**
+
+
+#### q：叠层架构的必要性
+#### a：OS层面，CRT（C RUN Time）层面，C++ std层面，都有内存的设计管理，作为跨平台语言，你并不知道底层的实现，不能过多依靠底层的实现，但这么做确实也是一种冗余。例如，VC 后面的设计已经跳过 CRT 层面，直接利用 windows 底层的 API。毕竟 VC 也是微软为 windows 写的c编译器，别人知道底层是个什么情况。
+#### a：malloc&free管理很好，G2.9的stl的alloc主要是去除cookie，减少cookie对内存的占用。侯老师是上述这样说的，但好像也减少了debug和padding
+
+![33-3](pic/memory/33-3.png)
+
+
+
+
+
+
+
+
+
+# 第四讲 loki::allocator
+
+## 对比G2.9 alloc ，loki::allocator可以归还给OS
+
+## 45~49 
+
+#### 总结
+- 有回收给内存的机制
+- 索引代替指针
+![45-1](pic/memory/45-1.png)
+
+#### 看看后续实现一个，以这个allocator设计容器
+
+
+#### 1 注意一下：a[-1] = *(a-1) ， a[b] = *(a+b)
+
+#### 2 这段代码的漏洞应该是：右边的第一个 `if` 里面，将vector中最后一个的 delete之后，没有将当前已经全回收这个元素移动到vector的尾部，所以造成以后的全回收无法回收，并不断累积，除非尾部的位置是全回收。
+
+#### 3 改动如下
+```c++
+if (lastChunk.blocksAvailable_ == numBlocks) {
+    // 两个free chunks，抛弃最后一个
+    lastChunk.Release();
+    chunks_.pop_back();
+    allocChunk_ = deallocChunk_;
+}
+
+// 将当前全回收放置尾部
+std::swap(*deallocChunk_, lastChunk);
+allocChunk_ = &chunks_.back();
+```
+![45-2](pic/memory/45-2.png)
+
+
+
+
+
+
+
+
+# 第五讲 other issues GNUC 下面 其他分配器
+
+## 50 GNU C++ 官方 对于 allocator的描述
+## 51 VC2013 GNUC 中 “阳春”的分配器
+## 52 array_allocator
+## 53 debug_allocator
+## 54 55 bitmap_allocator
+
+
+
+
+## 55 const
+
+
+
+
+
+
 

@@ -1,7 +1,9 @@
 #include <iostream>
 #include <functional>
 #include <type_traits>
-#include <ext/pool_allocator.h>
+#include <vector>
+#include <list>
+// #include <ext/pool_allocator.h>
 using namespace std;
 
 class Screen {
@@ -70,6 +72,10 @@ int main() {
     for (int i = 0; i < N; ++i) {
         delete p[i];
     }
+    vector<int>().push_back(2);
+
+    list<int>().push_back(2);
+
 
 
     return 0;

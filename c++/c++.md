@@ -136,6 +136,7 @@ int main(){
 ClassA a(b);
 ClassA a = b;
 ```
+
 2. 函数参数传递，作为形参的对象，是用复制构造函数初始化
 ```c++
 #include<iostream>
@@ -159,6 +160,7 @@ int main(){
 // 理解
 class 形参 = 实参，其实就是第一种情况
 ```
+
 3. 作为函数返回值的对象是用复制构造函数初始化的，而调用复制构造函数时的实参，就是 return 语句所返回的对象
 ```c++
 #include<iostream>
