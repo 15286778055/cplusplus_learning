@@ -925,7 +925,7 @@ struct hash<MyString> {
 
 // 使用
 M c11(c1);
-M c12(std::move(c1));
+M c12((c1));
 ```
 - 深拷贝
 
