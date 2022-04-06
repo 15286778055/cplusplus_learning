@@ -1,3 +1,16 @@
+/**
+ * @file solution.cc
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 特征：注意 stack 这个容器适配器的操作就行，容器的很多操作，这个适配器都没有
+ * 
+ */
+
 #include <iostream>
 #include <stack>
 

@@ -1,3 +1,24 @@
+/**
+ * @file solution.cc
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 数据结构：vector
+ * 时间复杂度：1) O(N*M)     2）O(M/2 + M*N/2)
+ * 空间复杂度：1) O(1)     2) O(2)
+ * 特征：
+ * 注意：vector最重要的是：
+ * 1）避免暴力解
+ * 2）迭代的推导(举一般的例子)
+ * 3）终止条件，容器为空的情况
+ * 
+ */
+
+
 #include <vector>
 #include <algorithm>
 

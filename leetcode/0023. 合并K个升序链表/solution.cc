@@ -1,3 +1,21 @@
+/**
+ * @file solution.cc
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 数据结构：优先队列
+ * 时间复杂度：O(n*logn + n*m*logn)
+ * 空间复杂度：O(N)
+ * 特征：最值，利用指针，出栈之后，继续压栈
+ * 注意：
+ * 
+ */
+
+
 #include <vector>
 #include <queue>
 
