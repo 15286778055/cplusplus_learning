@@ -1,3 +1,20 @@
+/**
+ * @file solution.cc
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-06
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 数据结构：
+ * 时间复杂度：O(M*N)
+ * 空间复杂度：O(1)不包括返回值
+ * 特征：正序需要全遍历，逆序避免最坏情况O(M*N)，时间开销和最小栈一个数量级
+ * 注意：
+ * 
+ */
+
 #include <iostream>
 #include <vector>
 
