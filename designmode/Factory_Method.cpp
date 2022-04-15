@@ -1,3 +1,16 @@
+/**
+ * @file Factory_Method.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-15
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 两根指针，一根指向基类，一根指向工厂基类，两根指针都是晚绑定，支持扩展
+ * 
+ */
+
 #include <iostream>
 #include <memory>
 #include <string>
