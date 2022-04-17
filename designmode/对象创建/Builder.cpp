@@ -1,3 +1,18 @@
+/**
+ * @file Builder.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-18
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 非要说的话，这个模式和两个工厂模式的区别是：这个模式是 分步骤 去创建一个对象，而工厂模式都是一次性创建好 1个/多个 对象
+ * 这个模式适合于代码中 固定 分步骤 创建对象
+ * 原型模式是用 某个实例（已经创建好） 去创建一个新对象，这里应该要调用这个对象的 拷贝构造函数
+ * 
+ */
+
 #include <iostream>
 #include <string>
 
