@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 /* Base */
 class Base {
@@ -6,7 +7,27 @@ public:
     virtual void CreateComp1() {}
     virtual void CreateComp2() {}
     virtual void CreateComp3() {}
+    std::string Name() const { return name_; }
     virtual ~Base() = default;
+
+protected:
+    std::string name_;
+};
+
+class Child1 : public Base {
+public:
+    explicit Child1() { name_ = "Child1"; }
+    virtual void CreateComp1() override {
+
+    }
+
+    virtual void CreateComp2() override {
+
+    }
+
+    virtual void CreateComp3() override {
+
+    }
 };
 
 /* Builder */
@@ -19,49 +40,49 @@ public:
     virtual Base *GetBuild() const { return base_; }
     virtual ~Builder() = default;
     
-private:
+protected:
     Base *base_;
 };
 
-class AdvanceBuilder1 : public Builder {
+class Child1Builder : public Builder {
 public:
-    explicit AdvanceBuilder1(Base *base) : Builder(base) {}
+    explicit Child1Builder() : Builder(new Child1()) {}
     virtual void BuildComp1() override {
-
         base_->CreateComp1();
-
-
-
-
-        std::cout << "\tAdvanceBuilder1 comp1" << std::endl;
+        std::cout << "\tChild1Builder comp1" << std::endl;
     }
     virtual void BuildComp2() override {
-        std::cout << "\tAdvanceBuilder1 comp2" << std::endl;
+        base_->CreateComp2();
+        std::cout << "\tChild1Builder comp2" << std::endl;
     }
     virtual void BuildComp3() override {
-        std::cout << "\tAdvanceBuilder1 comp2" << std::endl;
+        base_->CreateComp3();
+        std::cout << "\tChild1Builder comp2" << std::endl;
     }
 };
 
-class AdvanceBuilder2 : public Builder {
-public:
-    explicit AdvanceBuilder2(Base *base) : Builder(base) {}
-    virtual void BuildComp1() override {
-        std::cout << "\tAdvanceBuilder2 comp1" << std::endl;
-    }
-    virtual void BuildComp2() override {
-        std::cout << "\tAdvanceBuilder2 comp2" << std::endl;
-    }
-    virtual void BuildComp3() override {
-        std::cout << "\tAdvanceBuilder2 comp3" << std::endl;
-    }
-};
+// class AdvanceBuilder2 : public Builder {
+// public:
+//     virtual void BuildComp1() override {
+//         base_->CreateComp1();
+//         std::cout << "\tAdvanceBuilder2 comp1" << std::endl;
+//     }
+//     virtual void BuildComp2() override {
+//         base_->CreateComp2();
+//         std::cout << "\tAdvanceBuilder2 comp2" << std::endl;
+//     }
+//     virtual void BuildComp3() override {
+//         base_->CreateComp3();
+//         std::cout << "\tAdvanceBuilder2 comp3" << std::endl;
+//     }
+// };
 
 /* test */
 class Test {
 public:
     Test(Builder *builder) : builder_(builder) {}
 
+    /* 这个构建 base 的流程固定，这部分是稳定的 */
     Base *TestFuc() {
         builder_->BuildComp1();
         builder_->BuildComp2();
@@ -72,3 +93,13 @@ public:
 private:
     Builder *builder_;
 };
+
+int main() {
+
+
+    Test t(new Child1Builder());
+    Base *pb = t.TestFuc();
+    std::cout << pb->Name() << std::endl;
+
+    return 0;
+}
