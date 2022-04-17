@@ -11,8 +11,13 @@
 // The author makes no claims about the suitability of this software for any
 //     purpose. It is provided "as is" without express or implied warranty.
 ////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 
 // $Id$
+=======
+
+// $Id$
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 
 
 #include <loki/SafeBits.h>
@@ -119,6 +124,7 @@ int main( void )
     dog_state = DOG_BARKING;
 #ifdef ERROR6
     if ( dog_state == cat_state ) {}                          // Don't allow comparison of different types.
+<<<<<<< HEAD
 #endif
 
 
@@ -307,6 +313,196 @@ int main( void )
 #endif
 
 
+=======
+#endif
+
+
+/// @note All These assertions are inside #ifdef sections because they
+/// compare either SafeBitField or SafeBitConst to literal integers.
+/// If you compile any of these assertions they should generate errors.
+/// These #ifdef sections exhaustively demonstrate that all possible
+/// operations and comparisons with literal values are forbidden.
+
+#ifdef ERROR7
+    assert( dog_state == 1 );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR8
+    assert( dog_state != 2 );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR9
+    assert( dog_state < 2 );                                  // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR10
+    assert( dog_state > 0 );                                  // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR11
+    assert( dog_state <= 1 );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR12
+    assert( dog_state >= 1 );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR13
+    assert( DOG_BARKING == 1 );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR14
+    assert( DOG_BARKING != 2 );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR15
+    assert( DOG_BARKING < 2 );                                // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR16
+    assert( DOG_BARKING > 0 );                                // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR17
+    assert( DOG_BARKING <= 1 );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR18
+    assert( DOG_BARKING >= 1 );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR19
+    assert( ( dog_state | 1 ) != 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR20
+    assert( ( dog_state & 2 ) == 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR21
+    assert( ( dog_state ^ 1 ) == 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR22
+    assert( ( dog_state |= 2 ) == 3 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR23
+    assert( ( dog_state &= 3 ) == 2 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR24
+    assert( ( dog_state ^= 1 ) == 0 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR25
+    assert( ( DOG_BARKING | 1 ) != 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR26
+    assert( ( DOG_BARKING & 2 ) == 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR27
+    assert( ( DOG_BARKING ^ 1 ) == 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR28
+    assert( ( DOG_BARKING |= 2 ) == 3 );                      // Don't allow operations with integers.
+#endif
+#ifdef ERROR29
+    assert( ( DOG_BARKING &= 3 ) == 2 );                      // Don't allow operations with integers.
+#endif
+#ifdef ERROR30
+    assert( ( DOG_BARKING ^= 1 ) == 0 );                      // Don't allow operations with integers.
+#endif
+
+
+/// @note All These assertions are inside #ifdef sections because they
+/// compare either SafeBitField or SafeBitConst to an int variable.
+/// If you compile any of these assertions they should generate errors.
+/// These #ifdef sections exhaustively demonstrate that all possible
+/// operations and comparisons with integers are forbidden.
+
+    int value = 1;
+    (void)value;
+#ifdef ERROR31
+    assert( dog_state == value );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR32
+    value = 2;
+    assert( dog_state != value );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR33
+    value = 2;
+    assert( dog_state < value );                                  // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR34
+    value = 0;
+    assert( dog_state > value );                                  // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR35
+    value = 1;
+    assert( dog_state <= value );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR36
+    value = 1;
+    assert( dog_state >= value );                                 // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR37
+    value = 1;
+    assert( DOG_BARKING == value );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR38
+    value = 2;
+    assert( DOG_BARKING != value );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR39
+    value = 2;
+    assert( DOG_BARKING < value );                                // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR40
+    value = 0;
+    assert( DOG_BARKING > value );                                // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR41
+    value = 1;
+    assert( DOG_BARKING <= value );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR42
+    value = 1;
+    assert( DOG_BARKING >= value );                               // Don't allow comparisons to integers.
+#endif
+#ifdef ERROR43
+    value = 1;
+    assert( ( dog_state | value ) != 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR44
+    value = 2;
+    assert( ( dog_state & value ) == 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR45
+    value = 1;
+    assert( ( dog_state ^ value ) == 0 );                         // Don't allow operations with integers.
+#endif
+#ifdef ERROR46
+    value = 2;
+    assert( ( dog_state |= value ) == 3 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR47
+    value = 3;
+    assert( ( dog_state &= value ) == 2 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR48
+    value = 1;
+    assert( ( dog_state ^= value ) == 0 );                        // Don't allow operations with integers.
+#endif
+#ifdef ERROR49
+    value = 1;
+    assert( ( DOG_BARKING | value ) != 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR50
+    value = 2;
+    assert( ( DOG_BARKING & value ) == 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR51
+    value = 1;
+    assert( ( DOG_BARKING ^ value ) == 0 );                       // Don't allow operations with integers.
+#endif
+#ifdef ERROR52
+    value = 2;
+    assert( ( DOG_BARKING |= value ) == 3 );                      // Don't allow operations with integers.
+#endif
+#ifdef ERROR53
+    value = 3;
+    assert( ( DOG_BARKING &= value ) == 2 );                      // Don't allow operations with integers.
+#endif
+#ifdef ERROR54
+    value = 1;
+    assert( ( DOG_BARKING ^= value ) == 0 );                      // Don't allow operations with integers.
+#endif
+
+
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
     dog_state |= DOG_CHEWING;
     assert( dog_state & ( DOG_CHEWING | DOG_BARKING ) );
     dog_state &= DOG_CHEWING;

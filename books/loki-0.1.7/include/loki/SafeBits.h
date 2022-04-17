@@ -1,8 +1,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // The Loki Library
 // Copyright (c) 2009 by Fedor Pikus & Rich Sposato
+<<<<<<< HEAD
 // The copyright on this file is protected under the terms of the MIT license.
 //
+=======
+// The copyright on this file is protected under the terms of the MIT license.
+//
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 // Permission to use, copy, modify, distribute and sell this software for any
 //     purpose is hereby granted without fee, provided that the above copyright
 //     notice appear in all copies and that both that copyright notice and this
@@ -11,6 +16,7 @@
 // The author makes no claims about the suitability of this software for any
 //     purpose. It is provided "as is" without express or implied warranty.
 ////////////////////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
 
 // $Id$
 
@@ -27,6 +33,24 @@ namespace Loki
 {
 
 /*
+=======
+
+// $Id$
+
+
+#ifndef LOKI_INCLUDED_SAFE_BIT_FIELDS_H
+#define LOKI_INCLUDED_SAFE_BIT_FIELDS_H
+
+#include <cstdlib>
+#include <assert.h>
+#include <loki/static_check.h>
+
+
+namespace Loki
+{
+
+/*
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
  ==========================================================================================================================================
    SafeBitField                    - type-safe class for bit fields.
    SafeBitConst                    - type-safe class for bit constants.
@@ -95,16 +119,26 @@ namespace Loki
    ==========================================================================================================================================
 */
 
+<<<<<<< HEAD
 /// @par Non-Templated Initialization.
 /// Not all compilers support template member functions where the template
 /// arguments are not deduced but explicitly specified.  For these broken
 /// compilers, a non-template make_bit_const() function is provided instead of
 /// the template one. The only downside is that instead of compile-time checking
 /// of the index argument, it does runtime checking.
+=======
+/// @par Non-Templated Initialization.
+/// Not all compilers support template member functions where the template
+/// arguments are not deduced but explicitly specified.  For these broken
+/// compilers, a non-template make_bit_const() function is provided instead of
+/// the template one. The only downside is that instead of compile-time checking
+/// of the index argument, it does runtime checking.
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 #if defined(__SUNPRO_CC) || ( defined(__GNUC__) && (__GNUC__ < 3) )
     #define LOKI_BIT_FIELD_NONTEMPLATE_INIT
 #endif
 
+<<<<<<< HEAD
 /// @par Forbidding Conversions.
 /// This incomplete type prevents compilers from instantiating templates for
 /// type conversions which should not happen. This incomplete type must be a
@@ -114,6 +148,17 @@ namespace Loki
 /// unless template is instantiated). The standard-compliant way is to defer
 /// binding to the point of instantiation by making the incomplete type itself
 /// a template.
+=======
+/// @par Forbidding Conversions.
+/// This incomplete type prevents compilers from instantiating templates for
+/// type conversions which should not happen. This incomplete type must be a
+/// template: if the type is incomplete at the point of template definition,
+/// the  template is illegal (although the standard allows compilers to accept
+/// or reject such code, §14.6/, so some compilers will not issue diagnostics
+/// unless template is instantiated). The standard-compliant way is to defer
+/// binding to the point of instantiation by making the incomplete type itself
+/// a template.
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 template < typename > struct Forbidden_conversion;  // This struct must not be defined!
 
 /// Forward declaration of the field type.
@@ -167,22 +212,39 @@ public:
     {
         LOKI_STATIC_CHECK( i <= ( 8 * sizeof(word_t) ), Index_is_beyond_size_of_data );
         LOKI_STATIC_CHECK( sizeof(SafeBitConst) == sizeof(word_t), Object_size_does_not_match_data_size );
+<<<<<<< HEAD
         // Why check for ( i > 0 ) again inside the shift if the shift
         // can never be evaluated for i == 0? Some compilers see shift by ( i - 1 )
         // and complain that for i == 0 the number is invalid, without
         // checking that shift needs evaluating.
         return SafeBitConst( ( i > 0 ) ? ( word_t(1) << ( ( i > 0 ) ? ( i - 1 ) : 0 ) ) : 0 );
+=======
+        // Why check for ( i > 0 ) again inside the shift if the shift
+        // can never be evaluated for i == 0? Some compilers see shift by ( i - 1 )
+        // and complain that for i == 0 the number is invalid, without
+        // checking that shift needs evaluating.
+        return SafeBitConst( ( i > 0 ) ? ( word_t(1) << ( ( i > 0 ) ? ( i - 1 ) : 0 ) ) : 0 );
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
     }
 #else
     static SafeBitConst make_bit_const( unsigned int i )
     {
         LOKI_STATIC_CHECK( sizeof(SafeBitConst) == sizeof(word_t), Object_size_does_not_match_data_size );
+<<<<<<< HEAD
         assert( i <= ( 8 * sizeof(word_t) ) ); // Index is beyond size of data.
         // Why check for ( i > 0 ) again inside the shift if the shift
         // can never be evaluated for i == 0? Some compilers see shift by ( i - 1 )
         // and complain that for i == 0 the number is invalid, without
         // checking that shift needs evaluating.
         return SafeBitConst( ( i > 0 ) ? ( word_t(1) << ( ( i > 0 ) ? ( i - 1 ) : 0 ) ) : 0 );
+=======
+        assert( i <= ( 8 * sizeof(word_t) ) ); // Index is beyond size of data.
+        // Why check for ( i > 0 ) again inside the shift if the shift
+        // can never be evaluated for i == 0? Some compilers see shift by ( i - 1 )
+        // and complain that for i == 0 the number is invalid, without
+        // checking that shift needs evaluating.
+        return SafeBitConst( ( i > 0 ) ? ( word_t(1) << ( ( i > 0 ) ? ( i - 1 ) : 0 ) ) : 0 );
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
     }
 #endif
 
@@ -192,6 +254,7 @@ public:
     /// Copy constructor.
     SafeBitConst( const SafeBitConst& rhs ) : word( rhs.word ) {}
 
+<<<<<<< HEAD
     /// Comparison operators which take a constant bit value.
     bool operator == ( const SafeBitConst & rhs ) const { return word == rhs.word; }
     bool operator != ( const SafeBitConst & rhs ) const { return word != rhs.word; }
@@ -224,11 +287,46 @@ public:
     /// loops which act over bit fields and increment them.
     const SafeBitConst operator << ( unsigned int s ) const { return SafeBitConst( word << s ); }
     const SafeBitConst operator >> ( unsigned int s ) const { return SafeBitConst( word >> s ); }
+=======
+    /// Comparison operators which take a constant bit value.
+    bool operator == ( const SafeBitConst & rhs ) const { return word == rhs.word; }
+    bool operator != ( const SafeBitConst & rhs ) const { return word != rhs.word; }
+    bool operator <  ( const SafeBitConst & rhs ) const { return word <  rhs.word; }
+    bool operator >  ( const SafeBitConst & rhs ) const { return word >  rhs.word; }
+    bool operator <= ( const SafeBitConst & rhs ) const { return word <= rhs.word; }
+    bool operator >= ( const SafeBitConst & rhs ) const { return word >= rhs.word; }
+
+    /// Comparision operators for mutable bit fields.
+    bool operator == ( const field_t & rhs ) const { return word == rhs.word; }
+    bool operator != ( const field_t & rhs ) const { return word != rhs.word; }
+    bool operator <  ( const field_t & rhs ) const { return word <  rhs.word; }
+    bool operator >  ( const field_t & rhs ) const { return word >  rhs.word; }
+    bool operator <= ( const field_t & rhs ) const { return word <= rhs.word; }
+    bool operator >= ( const field_t & rhs ) const { return word >= rhs.word; }
+
+    /// Bitwise operations.  Operation-assignment operators are not needed,
+    /// since bit constants cannot be changed after they are initialized.
+    const SafeBitConst operator | ( const SafeBitConst & rhs ) const { return SafeBitConst( word | rhs.word ); }
+    const SafeBitConst operator & ( const SafeBitConst & rhs ) const { return SafeBitConst( word & rhs.word ); }
+    const SafeBitConst operator ^ ( const SafeBitConst & rhs ) const { return SafeBitConst( word ^ rhs.word ); }
+    const SafeBitConst operator ~ ( void ) const { return SafeBitConst( ~word ); }
+
+    /// These bitwise operators return a bit-field instead of a bit-const.
+    field_t operator | ( const field_t & rhs ) const { return field_t( word | rhs.word ); }
+    field_t operator & ( const field_t & rhs ) const { return field_t( word & rhs.word ); }
+    field_t operator ^ ( const field_t & rhs ) const { return field_t( word ^ rhs.word ); }
+
+    /// The shift operators move bits inside the bit field.  These are useful in
+    /// loops which act over bit fields and increment them.
+    const SafeBitConst operator << ( unsigned int s ) const { return SafeBitConst( word << s ); }
+    const SafeBitConst operator >> ( unsigned int s ) const { return SafeBitConst( word >> s ); }
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 
     /// Word size is also the maximum number of different bit fields for a given word type.
     static size_t size() { return ( 8 * sizeof( word_t ) ); }
 
 private:
+<<<<<<< HEAD
 
     /// Copy-assignment operator is not implemented since it does not make sense
     /// for a constant object.
@@ -265,6 +363,44 @@ private:
     template < typename T > bool operator>( const T ) const { Forbidden_conversion< T > wrong; return true; }
     template < typename T > bool operator<=( const T ) const { Forbidden_conversion< T > wrong; return true; }
     template < typename T > bool operator>=( const T ) const { Forbidden_conversion< T > wrong; return true; }
+=======
+
+    /// Copy-assignment operator is not implemented since it does not make sense
+    /// for a constant object.
+    SafeBitConst operator = ( const SafeBitConst & rhs );
+
+    // Private constructor from an integer type.
+    explicit SafeBitConst( word_t init ) : word( init ) {}
+
+    /// This data stores a single bit value.  It is declared const to enforce
+    // constness for all functions of this class.
+    const word_t word;
+
+    // Here comes the interesting stuff: all the operators designed to
+    // trap unintended conversions and make them not compile.
+    // Operators below handle code like this:
+    //    SafeBitField<1> label1;
+    //    SafeBitField<2> label2;
+    //    if ( label1 & label2 ) { ... }
+
+    // These operators are private, and will not instantiate in any
+    // event because of the incomplete Forbidden_conversion struct.
+    template < typename T > SafeBitConst operator|( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitConst operator&( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitConst operator^( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitConst operator|=( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitConst operator&=( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitConst operator^=( T ) const { Forbidden_conversion< T > wrong; return *this; }
+
+    // And the same thing for comparisons: private and unusable.
+    //    if ( label1 == label2 ) { ... }
+    template < typename T > bool operator==( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator!=( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator<( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator>( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator<=( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator>=( const T ) const { Forbidden_conversion< T > wrong; return true; }
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 };
 
 
@@ -312,6 +448,7 @@ public:
     SafeBitField( const const_t & rhs ) : word( rhs.word ) {}
     SafeBitField & operator = ( const const_t & rhs ) { word = rhs.word; return *this; }
 
+<<<<<<< HEAD
     /// These comparison operators act on bit-fields of the same type.
     bool operator == ( const SafeBitField & rhs ) const { return word == rhs.word; }
     bool operator != ( const SafeBitField & rhs ) const { return word != rhs.word; }
@@ -345,6 +482,41 @@ public:
     SafeBitField operator &= ( const_t rhs ) { word &= rhs.word; return SafeBitField( *this ); }
     SafeBitField operator ^= ( const_t rhs ) { word ^= rhs.word; return SafeBitField( *this ); }
 
+=======
+    /// These comparison operators act on bit-fields of the same type.
+    bool operator == ( const SafeBitField & rhs ) const { return word == rhs.word; }
+    bool operator != ( const SafeBitField & rhs ) const { return word != rhs.word; }
+    bool operator <  ( const SafeBitField & rhs ) const { return word <  rhs.word; }
+    bool operator >  ( const SafeBitField & rhs ) const { return word >  rhs.word; }
+    bool operator <= ( const SafeBitField & rhs ) const { return word <= rhs.word; }
+    bool operator >= ( const SafeBitField & rhs ) const { return word >= rhs.word; }
+
+    /// These comparison operators act on bit-constants of a similar type.
+    bool operator == ( const const_t & rhs ) const { return word == rhs.word; }
+    bool operator != ( const const_t & rhs ) const { return word != rhs.word; }
+    bool operator <  ( const const_t & rhs ) const { return word <  rhs.word; }
+    bool operator >  ( const const_t & rhs ) const { return word >  rhs.word; }
+    bool operator <= ( const const_t & rhs ) const { return word <= rhs.word; }
+    bool operator >= ( const const_t & rhs ) const { return word >= rhs.word; }
+
+    /// Bitwise operations that use bit-fields.
+    SafeBitField operator |  ( const SafeBitField & rhs ) const { return SafeBitField( word | rhs.word ); }
+    SafeBitField operator &  ( const SafeBitField & rhs ) const { return SafeBitField( word & rhs.word ); }
+    SafeBitField operator ^  ( const SafeBitField & rhs ) const { return SafeBitField( word ^ rhs.word ); }
+    SafeBitField operator ~  ( void ) const { return SafeBitField( ~word ); }
+    SafeBitField operator |= ( const SafeBitField & rhs ) { word |= rhs.word; return SafeBitField( *this ); }
+    SafeBitField operator &= ( const SafeBitField & rhs ) { word &= rhs.word; return SafeBitField( *this ); }
+    SafeBitField operator ^= ( const SafeBitField & rhs ) { word ^= rhs.word; return SafeBitField( *this ); }
+
+    /// Bitwise operators that use bit-constants.
+    SafeBitField operator |  ( const_t rhs ) const { return SafeBitField( word | rhs.word ); }
+    SafeBitField operator &  ( const_t rhs ) const { return SafeBitField( word & rhs.word ); }
+    SafeBitField operator ^  ( const_t rhs ) const { return SafeBitField( word ^ rhs.word ); }
+    SafeBitField operator |= ( const_t rhs ) { word |= rhs.word; return SafeBitField( *this ); }
+    SafeBitField operator &= ( const_t rhs ) { word &= rhs.word; return SafeBitField( *this ); }
+    SafeBitField operator ^= ( const_t rhs ) { word ^= rhs.word; return SafeBitField( *this ); }
+
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
     // Conversion to bool.
     // This is a major source of headaches, but it's required to support code like this:
     //    const static SafeBitConst<1> Label_value = SafeBitConst<1>::make_bit_const<1>();
@@ -363,6 +535,7 @@ public:
     //
     operator const bool() const { return ( 0 != word ); }
 
+<<<<<<< HEAD
     // Shift operators shift bits inside the bit field. Does not make
     // sense, most of the time, except perhaps to loop over labels and
     // increment them.
@@ -374,6 +547,19 @@ public:
     // Word size is also the maximum number of different bit fields for
     // a given word type.
     static size_t size( void ) { return ( 8 * sizeof( word_t ) ); }
+=======
+    // Shift operators shift bits inside the bit field. Does not make
+    // sense, most of the time, except perhaps to loop over labels and
+    // increment them.
+    SafeBitField operator <<  ( unsigned int s ) { return SafeBitField( word << s ); }
+    SafeBitField operator >>  ( unsigned int s ) { return SafeBitField( word >> s ); }
+    SafeBitField operator <<= ( unsigned int s ) { word <<= s; return *this; }
+    SafeBitField operator >>= ( unsigned int s ) { word >>= s; return *this; }
+
+    // Word size is also the maximum number of different bit fields for
+    // a given word type.
+    static size_t size( void ) { return ( 8 * sizeof( word_t ) ); }
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 
 private:
 
@@ -381,6 +567,7 @@ private:
     /// explicit declaration, it's better than nothing but does not solve all
     /// problems with undesired conversions because SafeBitField coverts to bool.
     explicit SafeBitField( word_t init ) : word( init ) {}
+<<<<<<< HEAD
 
     /// This stores the bits.
     word_t word;
@@ -461,6 +648,88 @@ inline SafeBitField< unique_index, word_t > operator != ( bool, SafeBitField< un
     return rhs;
 }
 
+=======
+
+    /// This stores the bits.
+    word_t word;
+
+    // Here comes the interesting stuff: all the operators designed to
+    // trap unintended conversions and make them not compile.
+    // Operators below handle code like this:
+    //    SafeBitField<1> label1;
+    //    SafeBitField<2> label2;
+    //    if ( label1 & label2 ) { ... }
+
+    // These operators are private, and will not instantiate in any
+    // event because of the incomplete Forbidden_conversion struct.
+    template < typename T > SafeBitField operator |  ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitField operator &  ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitField operator ^  ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitField operator |= ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitField operator &= ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+    template < typename T > SafeBitField operator ^= ( T ) const { Forbidden_conversion< T > wrong; return *this; }
+
+    // And the same thing for comparisons:
+    //    if ( label1 == label2 ) { ... }
+    template < typename T > bool operator == ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator != ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator <  ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator >  ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator <= ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+    template < typename T > bool operator >= ( const T ) const { Forbidden_conversion< T > wrong; return true; }
+};
+
+// The above template member operators catch errors when the first
+// argument to a binary operator is a label, but they don't work when
+// the first argument is an integer and the second one is a label: the
+// label converts to bool and the operator is performed on two integers.
+// These operators catch errors like this:
+//    SafeBitField<1> label1;
+//    SafeBitField<2> label2;
+//    if ( !label1 & label2 ) { ... }
+// where the first label is converted to bool (these errors cannot be
+// caught by member operators of SafeBitField class because the first
+// argument is not SafeBitField but bool.
+//
+// If used, these operators will not instantiate because of the
+// incomplete Forbidden_conversion struct.
+
+template < unsigned int unique_index, typename word_t >
+inline SafeBitField< unique_index, word_t > operator & ( bool, SafeBitField< unique_index, word_t > rhs )
+{
+    Forbidden_conversion<word_t> wrong;
+    return rhs;
+}
+
+template < unsigned int unique_index, typename word_t >
+inline SafeBitField< unique_index, word_t > operator | ( bool, SafeBitField< unique_index, word_t > rhs )
+{
+    Forbidden_conversion< word_t > wrong;
+    return rhs;
+}
+
+template < unsigned int unique_index, typename word_t >
+inline SafeBitField< unique_index, word_t > operator ^ ( bool, SafeBitField< unique_index, word_t > rhs )
+{
+    Forbidden_conversion< word_t > wrong;
+    return rhs;
+}
+
+template < unsigned int unique_index, typename word_t >
+inline SafeBitField< unique_index, word_t > operator == ( bool, SafeBitField< unique_index, word_t > rhs )
+{
+    Forbidden_conversion< word_t > wrong;
+    return rhs;
+}
+
+template < unsigned int unique_index, typename word_t >
+inline SafeBitField< unique_index, word_t > operator != ( bool, SafeBitField< unique_index, word_t > rhs )
+{
+    Forbidden_conversion< word_t > wrong;
+    return rhs;
+}
+
+>>>>>>> 5e9bc2337537ccfda2922118c9a6521ab2c372b6
 // Finally, few macros. All macros are conditionally defined to use the SafeBitField classes if LOKI_SAFE_BIT_FIELD is defined. Otherwise,
 // the macros fall back on the use of typedefs and integer constants. This provides no addititonal safety but allows the code to support the
 // mixture of compilers which are broken to different degrees.
