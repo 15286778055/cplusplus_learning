@@ -1,3 +1,16 @@
+/**
+ * @file Flyweight.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-04-19
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ * 享元模式：键值对记录对象，避免多次创建，对内存资源的过多消耗
+ * 
+ */
+
 #include <iostream>
 #include <unordered_map>
 #include <memory>
