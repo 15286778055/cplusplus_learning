@@ -7,7 +7,7 @@
  * 
  * @copyright Copyright (c) 2022
  * 
- *  Facade 更多体现的是一种设计思维
+ *  Facade 更多体现的是一种设计思维：系统内/外之间
  * 
  */
 

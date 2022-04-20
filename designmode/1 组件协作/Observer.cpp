@@ -51,7 +51,7 @@ class ObserverA : public Observer {
 public:
 
     /* 以下两行为 class ObserverA 提供构造函数，默认构造函数是无参的，但 main里面会传递 subject 来构造，找不到复合条件的函数 */
-    // using Observer::Observer;        /* 编译器会提供默认构造函数，但无法满足 main 里面的构造，这句代码引入父类的构造函数，满足调用条件 */
+    using Observer::Observer;        /* 编译器会提供默认构造函数，但无法满足 main 里面的构造，这句代码引入父类的构造函数，满足调用条件 */
     // ObserverA(const std::shared_ptr<Subject>& p) : Observer(p) {}        /* 直接提供一个函数 */
 
     void Update() override {
