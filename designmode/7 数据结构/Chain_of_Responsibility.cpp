@@ -62,6 +62,17 @@ public:
         if (i < 1000) {
             std::cout << i << " processed by C" << std::endl;
         } else {
+
+            /**
+             * @brief Construct a new Handler:: Process object
+             * 调用基类同名函数，用基类指针的函数来接着处理
+             * 如果按照常规方法（分别直接实现 Handler::Process() ），这三段代码是完全重复的，
+             * 通过 “重构” ，也可以写出目前这种结构
+             * 
+             * 也不一定马上就能写出这种代码，最重要的还是要 不断 “重构”
+             * 
+             */
+
             Handler::Process(i);
         }
     }
