@@ -9,6 +9,8 @@
  * 
  * 状态模式：unique_ptr实现
  * 
+ * 和 strategy 在于，一个保存的状态，一个直接重新创建对象。其实思想都一样
+ * 
  */
 
 #include <iostream>
