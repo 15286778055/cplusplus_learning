@@ -27,22 +27,23 @@
  */
 bool is_cord(const cord_t *R) {
     // 1 非 NULL
-    if (R == NULL) return false;
+    if (R == NULL) return true;
     // 2 叶子节点
     if (R->left == NULL && R->right == NULL) {
         // data len 要求
         if (R->data == NULL) return false;
         if (R->len != strlen(R->data)) reurn false;
-    }
+    } else return true;
     // 3 非叶子节点
     if (R->left != NULL && R->right != NULL) {
         // 递归判断左右两个叶子是否为合法 cord
         if (!is_cord(R->left)) return false;
         if (!is_cord(R->right)) return false;
-        if (R->len != cord_length(R)) return false;
-    }
+        if (R->len != cord_length(R->left) + cord_length(R->right)) return false;
+        if (R->data != NULL) return false;
+    } else return true;
 
-    return true;
+    return false;
 }
 
 /**
@@ -95,25 +96,21 @@ const cord_t *cord_join(const cord_t *R, const cord_t *S) {
 char *cord_tostring(const cord_t *R) {
     // 这个递归不断开辟内存 释放内存 写的不好
     // 修改一下函数的接口，加入一个 cursor 可以避免递归开辟多次内存、释放多次内存
+    if (!is_cord(R)) return NULL;
     char *result = malloc(cord_length(R) + 1);
-    char *cur = result;
-    if (R->left != NULL)
-    {
-        char *new = cord_tostring(R->left);
-        strcat(cur, new);
-        cur += cord_length(R->left);
-        free(new);
-    }
 
-    if (R->data != NULL)
-    {
-        strcat(cur, R->data);
-        cur += (R->len-cord_length(R->left)-cord_length(R->right));
-    }
-    if (R->right != NULL)
-    {
-        char *new = cord_tostring(R->right);
-        strcat(cur, new);
+    if (R->left == NULL && R->right == NULL && R->data != NULL) {
+        // 递归出口
+        strcat(result, R->data);
+    } else if (R->left != NULL && R->right != NULL) {
+        // 递归
+        // left
+        char *new = cord_tostring(R->left);
+        strcat(result, new);
+        free(new);
+        // right
+        new = cord_tostring(R->right);
+        strcat(result, new);
         free(new);
     }
 
@@ -131,9 +128,16 @@ char *cord_tostring(const cord_t *R) {
  */
 char cord_charat(const cord_t *R, size_t i) {
     assert(i <= cord_length(R));
-    if (i < cord_length(R->left)) return cord_charat(R->left, i);
-    if (i < R->len-cord_length(R->right)) return R->data[i-cord_length(R->left)];
-    if (i < cord_length(R)) return cord_charat(R->right, i-(R->len-cord_length(R->right)));
+    // 递归出口
+    if (i < 0 || i >= cord_length(R)) return '\0';
+    if (R->left == NULL && R->right == NULL && R->data != NULL) {
+        // 递归出口
+        return R->data[i];
+    }
+    if (R->left != NULL && R->right != NULL) {
+        if (i < cord_length(R->left)) return cord_charat(R->left, i);
+        if (i < cord_charat(R)) return cord_charat(R->right, i- cord_length(R->left));
+    }
 
     return '\0';
 }
@@ -151,19 +155,47 @@ char cord_charat(const cord_t *R, size_t i) {
  */
 const cord_t *cord_sub(const cord_t *R, size_t lo, size_t hi) {
     assert(lo <= hi && hi <= cord_length(R));
+
+    /* 递归出口 */
     // 直接 return NULL
     if (lo >= hi || hi > cord_length(R)) return NULL;
-    // 直接返回
+    // 直接返回整个 cord
     if (lo == 0 && hi == cord_length(R)) {
         const cord_t *new_cord = R;
         return new_cord;
     }
 
-    // TODO 完善其他情况
+    // 叶子节点 需要开辟新节点
+    if (R->left == NULL && R->right == NULL && R->data != NULL) {
+        // 递归出口
+        cord_t *new_cord = (cord_t *) calloc(1, sizeof(cord_t));
+        size_t len = hi - lo;
+        new_cord->data = (char *) calloc(len, sizeof(char));
+        for (int i = 0; i < len; ++i) {
+            new_cord->data[i] = R->data[lo + i];
+        }
+        new_cord->len = len;
 
-
-
-
+        return new_cord;
+    }
+    // 非叶子节点
+    if (R->left != NULL && R->right != NULL) {
+        // left
+        if (hi <= cord_length(R->left)) {
+            return cord_sub(R->left, lo, hi);
+        }
+        // right
+        if (lo >= cord_length(R->left)) {
+            return cord_sub(R->right, lo-cord_length(R->left), hi-cord_length(R->left));
+        }
+        // left and right
+        if (lo < cord_length(R->left) && hi > cord_length(R->left)) {
+            cord_t *new_cord = (cord_t *) calloc(1, sizeof(cord_t));
+            new_cord->left = cord_sub(R->left, lo, cord_length(R->left));
+            new_cord->right = cord_sub(R->right, 0, hi-cord_length(R->left));
+            new_cord->len = cord_length(new_cord->left) + cord_length(new_cord->right);
+        }
+    }
 
     return NULL;
 }
