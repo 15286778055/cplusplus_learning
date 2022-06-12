@@ -1,0 +1,6 @@
+phase_1: Border relations with Canada have never been better.
+phase_2: 1 2 4 8 16 32
+phase_3: (0,207) (1,311) (2, 707) (3, 256) (4, 389) (5, 206) (6, 682) (7, 327)
+phase_4: (7,0)
+phase_5: ionefg-->flyers
+phase_6: 1)顺序  2)7-x  3)
