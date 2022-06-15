@@ -1,3 +1,5 @@
+## Lecture 10 Program optimization
+
 ### 编译器优化影响
 #### 移位操作(<< >>)、加法 代替 乘法(需要较多时钟周期)
 
@@ -27,4 +29,13 @@ a[1] = var
 ```
 
 
-###
+
+## Lecture 11 Memory Hierachy
+
+- the speed gap between CPU, memory and mass storage continus to widen
+- Well-written programs exhibit a property called **locality**（程序的局限性：时间局限性、空间局限性）
+- Memory hierarchied based on caching close the gap by exploiting locality（内存层级基于缓存，上级是下级的缓存）、
+
+
+## Lecture 12 Cache Memories
+
