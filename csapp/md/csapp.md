@@ -39,3 +39,19 @@ a[1] = var
 
 ## Lecture 12 Cache Memories
 
+code improve locality (include spatial locality and temporal locality)
+focus on inner loop
+
+
+
+## Lecture 13 Linking
+
+#### Why Linkers?
+- modularity
+- efficiency: 分离式编译 改动源文件不需要全部重新编译
+
+
+#### What do linkers do
+- step1: Symbol resolution（符号解析）
+- step2: Relocation
+
