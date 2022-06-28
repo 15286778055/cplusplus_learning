@@ -55,3 +55,44 @@ focus on inner loop
 - step1: Symbol resolution（符号解析）
 - step2: Relocation
 
+
+
+
+
+
+
+## Lecture 14 15 Exception Control Flow（ECF）
+
+- 进程
+- 进程上下文（逻辑控制、地址空间）
+- 进程上下文切换 context switch
+- fork() copy on write
+- 信号（内核-->进程 ｜ 进程-->内核-->进程）
+- 涉及到信号的处理，**并发安全、死锁**
+
+![14-1](pics/14-1.png)
+
+![14-2](pics/14-2.png)
+
+![15-1](pics/15-1.png)
+
+
+## Lecture 16 System I/O
+
+- low level Unix I/O（异步信号安全）
+- library I/O
+- rio（针对网络应用）
+
+
+
+## Lecture 17 18 Virtual Memory
+
+- MMU 地址转换
+- 多级页表，需要转入内存的页表才分配，节约页表空间
+- 内存管理
+- 内存保护
+
+
+![17-1](pics/17-1.png)
+
+![17-2](pics/17-2.png)
