@@ -96,3 +96,27 @@ focus on inner loop
 ![17-1](pics/17-1.png)
 
 ![17-2](pics/17-2.png)
+
+
+## Lecture 23 Concurrent Programing
+
+- 多进程
+- 基于事件
+- 多线层（peer thread）
+
+![23-1](pics/23-1.png)
+
+![23-2](pics/23-2.png)
+
+
+## Lecture 24 25 Synchronization
+
+### Basics
+
+- 栈区也是共享的
+任意线程、主进程可以通过全局变量记录下任意线程、主进程的栈区数据的地址，从而访问到任意线程、主进程的栈区
+
+- 线程间对共享变量的访问，需要同步来实现
+- 可以通过“信号”，P、V 操作来实现`阻塞`、`同步`。
+
+### Advance
