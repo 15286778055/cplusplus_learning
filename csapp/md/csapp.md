@@ -164,7 +164,8 @@ amdahl's law 性能取决于不能被优化的那部分（短板）
 给出了 quicksort 的多线程版本（官网有代码？）
 
 数据一致性
-多核心 snoopy caches
+- 多核心 snoopy caches
+- 进阶 `MESI（多核CPU cache缓存一致性协议）`
 ![26-1](pics/26-1.png)
 
 ![26-2](pics/26-2.png)
