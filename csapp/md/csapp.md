@@ -55,6 +55,10 @@ focus on inner loop
 - step1: Symbol resolution（符号解析）
 - step2: Relocation
 
+![13-1](pics/13-1.png)
+
+![13-2](pics/13-2.png)
+
 
 
 
