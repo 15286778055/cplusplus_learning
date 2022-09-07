@@ -197,3 +197,88 @@ http1.0（持久） 1.1（非持久）
 - 解析
 - 维护
 
+
+
+
+
+
+### flow control
+
+#### two basic approaches
+- stop and wait
+  - 发送方仅发送一个包，发送之后同步等待
+- sliding window 滑动窗口协议
+  - sequence number space size 不太明白
+
+#### Retransmission Strategies
+- `go back n`
+- `selective repeat`
+
+#### TCP Header
+![TCP Header](pics/2-10%20TCP%20Header.png)
+
+#### TCP Setup and Teardown
+- 三次握手
+- 四次挥手
+
+#### `end to end principle`
+
+#### What i learned
+- Transport Layer： TCP、UDP、ICMP
+- How TCP works：Connections and Retransmissions
+- How UDP works
+- How ICMP works
+- The End to End Principle
+
+
+
+### packet switching
+
+why?
+- efficient use of expensive links
+- resilience to failure of links and routers
+
+
+#### end to end delay 延迟
+- propagation delay 传播延迟 取决于路程（fixed）
+- packetization delay 打包延迟（传输延迟）（fixed）
+- Queueing delay 数据包等待延迟（排队延迟）（variable）
+
+路由器`存储`、`转发`，等到所有数据包到了，再转发，而且还要等待已经进入缓冲区的其他数据包，有了排队延迟。
+
+一些实时应用使用`playback buffers`来避免可变的`排队延迟`
+比如：b站、youtube视频播放缓冲
+
+![end to end delay](pics/3.3%20end%20to%20end%20delay.png)
+
+
+统计复用
+
+排队延迟、占用率的举例不太看懂？？？？
+
+#### queue properties
+- burstiness increases delay
+- Little's result: 占用 = 到达率 * 延迟
+
+
+#### how a packet switch works
+
+ethernet switch
+![](pics/3.7%20ethernet%20switch.png)
+internet router
+![](pics/3.7%20internet%20router.png)
+
+
+- lookup address
+  - 最长前缀匹配（TCAM）
+- switching
+  - output queueing (minimizes packet delay)（FIFO，最小化延迟）
+  - input queueing (with output queues to maximize throughput)（最大化吞吐量）
+
+
+
+
+存储 转发，最小粒度？能够组成IP数据报？
+
+
+#### 分组转发：`延迟`
