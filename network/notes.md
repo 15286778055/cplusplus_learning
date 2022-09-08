@@ -202,7 +202,7 @@ http1.0（持久） 1.1（非持久）
 
 
 
-### flow control
+### 3 flow control 防止压倒接收方
 
 #### two basic approaches
 - stop and wait
@@ -281,4 +281,59 @@ internet router
 存储 转发，最小粒度？能够组成IP数据报？
 
 
-#### 分组转发：`延迟`
+#### 分组转发：`延迟`、`交换`
+what i learned
+- queueing delay and end to end delay
+- why streaming applications use a playback buffer
+- a simple deterministic queue model
+- rate guarantees ???
+- delay guarantees ???
+- how packets are switched and forwarded
+
+
+
+
+### 4 congestion control 防止压倒网络
+
+`Max-min fairness`
+
+- 实现
+  - end host（Where TCP realizes）
+  - int the internet
+
+- silding window
+  - R * RTT = Window size 发送速度和RTT的关系？？？
+![](pics/4%20TCP%20silding%20window.png)
+
+![](pics/4%20TCP%20congestion%20window%20size.png)
+
+`TCP Strategy`：**`AIMD`**
+![](pics/4%20AIMD.png)
+
+![](pics/4%20little%20summary.png)
+
+
+
+##### 路由器缓冲区大小
+= RTT * C
+![](pics/4%20buffer%20size1.png)
+
+![](pics/4%20buffer%20size2.png)
+
+
+#### when should you send new data? `TCP Tahoe`
+
+![](pics/4%20TCP%20Tahole%20FSM.png)
+
+![](pics/4%20TCP%20Tahole%20Behavior.png)
+
+
+#### when should you send data retransmissions? `RTT Estimate`
+
+![](pics/4%20TCP%20Tahole%20timeout.png)
+
+
+
+#### when should you send acknowledgments? `self-clocking`
+
+![](pics/4%20TCP%20self-coking.png)
