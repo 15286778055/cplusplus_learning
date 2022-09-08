@@ -201,8 +201,10 @@ http1.0（持久） 1.1（非持久）
 
 
 
+### 2 Transport
 
-### 3 flow control 防止压倒接收方
+
+#### flow control 防止压倒接收方
 
 #### two basic approaches
 - stop and wait
@@ -232,7 +234,7 @@ http1.0（持久） 1.1（非持久）
 
 
 
-### packet switching
+### 3 packet switching
 
 why?
 - efficient use of expensive links
@@ -337,3 +339,35 @@ what i learned
 #### when should you send acknowledgments? `self-clocking`
 
 ![](pics/4%20TCP%20self-coking.png)
+
+
+
+#### More Modern TCP: `TCP Reno`
+
+对 `timeout` 和 `triple same ack` 做不同处理
+
+- 快恢复
+- 快重传
+
+- Tahoe
+![](pics/4%20TCP%20Tahoe.png)
+- Reno
+![](pics/4%20TCP%20Reno.png)
+
+
+#### TCP NewReno
+
+在快速重传中发送新的数据包
+
+- New Reno
+![](pics/4%20TCP%20NewReno.png)
+
+![Tahoe Reno NewReno Summary](pics/4%20TCP%20Reno%20Summary.png)
+
+
+#### 性能提升：`fast retransmit`、`fast recovery`
+
+![TCP Reno FSM](pics/4%20TCP%20Reno%20FSM.png)
+
+ 
+AIMD flow, max-min fairness ???
