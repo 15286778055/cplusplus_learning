@@ -371,3 +371,44 @@ what i learned
 
  
 AIMD flow, max-min fairness ???
+
+
+
+
+
+
+
+
+### application and NAT
+
+
+
+#### NAT
+
+Strong end to end principle
+
+NAT ip port 到 local machine ip port 的映射
+
+Types of NATs
+- Full Cone NAT (NAT IP、NAT Port)
+- Restricted Cone NAT (NAT IP、NAT Port、External Sender IP)
+- Port Restricted NAT (NAT IP、NAT Port、External Sender IP、External Sender Port)
+- Symmetric NAT (Symmetric Mapping 内网同一个endpoint向外网不同的endpoint12建立链接，需要建立不同的映射关系)
+- Hairpining
+
+
+##### 分类
+- Mapping Behavior (出):
+  - Endpoint Independent Mapping
+  - Address Dependent Mapping
+  - Address and Port Dependent Mapping
+
+- Filtering Behavior (进):
+  - Endpoint Independent Filtering
+  - Address Dependent Filtering
+  - Address and Port Dependent Filtering
+
+`NAT 打洞`，peer to peer 通信
+Full Cone NAT、Restricted Cone NAT、Port Restricted NAT（三者都是Endpoint Independent Mapping，Filtering 策略不同） 都可以实现 NAT 打洞
+[点击查看具体分析](https://www.modb.pro/db/251631)
+
