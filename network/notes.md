@@ -408,7 +408,10 @@ Types of NATs
   - Address Dependent Filtering
   - Address and Port Dependent Filtering
 
+
 `NAT 打洞`，peer to peer 通信
+
 Full Cone NAT、Restricted Cone NAT、Port Restricted NAT（三者都是Endpoint Independent Mapping，Filtering 策略不同） 都可以实现 NAT 打洞
+
 [点击查看具体分析](https://www.modb.pro/db/251631)
 
