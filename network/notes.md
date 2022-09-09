@@ -413,5 +413,7 @@ Types of NATs
 
 Full Cone NAT、Restricted Cone NAT、Port Restricted NAT（三者都是Endpoint Independent Mapping，Filtering 策略不同） 都可以实现 NAT 打洞
 
+Symmetric NAT (X Dependent Mapping, Port Restricted Filtering) 打洞需要用到“试探”
+
 [点击查看具体分析](https://www.modb.pro/db/251631)
 
