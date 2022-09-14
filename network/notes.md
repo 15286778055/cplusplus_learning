@@ -417,3 +417,53 @@ Symmetric NAT (X Dependent Mapping, Port Restricted Filtering) 打洞需要用�
 
 [点击查看具体分析](https://www.modb.pro/db/251631)
 
+
+
+
+#### HTTP
+
+- Request Format
+- ![](pics/5%20Request%20Format.png)
+- Response Format
+- ![](pics/5%20Response%20Format.png)
+
+
+http1.0
+![](pics/5%20http1.0.png)
+http1.1
+![](pics/5%20http1.1.png)
+
+
+#### Bit Torrent
+
+![](pics/5%20bittorrent.png)
+
+
+#### DNS
+
+
+#### DHCP
+
+need：
+- ip address
+- subnet mask
+- gateway router
+- dns server's ip address
+
+
+### Routing
+
+Approaches
+- Flooding
+- Source Routing
+- Forwarding Table
+- Spanning Tree
+
+minimum cost spanning tree
+
+
+interior routing
+- Bellmanford（replaced by the latter）
+- dijkstra
+
+![internet structure](pics/6%20internet%20structure.png)
