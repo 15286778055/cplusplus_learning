@@ -504,3 +504,13 @@ Reverse Path Broadcast( RPB )
 ![](pics/6%20spanning%20tree2.png)
 
 
+
+
+
+### 7 Physical and Link Principles
+
+
+link layer
+CSMA/CD Protocol
+
+![](pics/7%20csma:cd.png)
