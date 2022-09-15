@@ -451,13 +451,15 @@ need：
 - dns server's ip address
 
 
-### Routing
+### 6 Routing
 
 Approaches
-- Flooding
-- Source Routing
-- Forwarding Table
-- Spanning Tree
+- `Flooding`
+- `Source Routing` 规定好整条路径 运营商必须开放内部节点信息 也不利于网络自己维护路由表
+- `Forwarding Table`
+  - `Bellman-Ford distance vector` used by RIP
+  - `Dijkstra link state` used by OSPF
+- `Spanning Tree` for Ethenet Switch
 
 minimum cost spanning tree
 
@@ -467,3 +469,38 @@ interior routing
 - dijkstra
 
 ![internet structure](pics/6%20internet%20structure.png)
+
+
+
+
+#### BGP Border Gateway Protocol
+
+- uses "Path Vector"
+- gives AS_PATH( that is the path vector )
+![](pics/6%20BGP%20Basic.png)
+
+![](pics/6%20BGP%20Message.png)
+
+![](pics/6%20BGP%20Route%20Selection.png)
+
+
+
+![BGP Summary](pics/6%20BGP%20Summary.png)
+
+
+
+
+#### Multicast Routing
+
+Broadcast
+Reverse Path Broadcast( RPB )
+
+
+
+#### Spanning Tree Protocol For Ethenet
+
+![](pics/6%20spanning%20tree1.png)
+
+![](pics/6%20spanning%20tree2.png)
+
+
