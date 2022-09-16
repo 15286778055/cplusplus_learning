@@ -514,3 +514,35 @@ link layer
 CSMA/CD Protocol
 
 ![](pics/7%20csma:cd.png)
+
+
+#### Ethenet
+
+![](pics/7%20Ethenet%20Switch.png)
+
+
+#### Fragment and Assembly
+
+![](pics/7%20Fragment%20and%20Assmbly.png)
+
+usual mtu 1500 byte
+
+
+
+
+### 8 security
+
+![攻击种类](pics/8%20Communication%20to%20be%20Compromised.png)
+
+![希望做到的通信](pics/8%20What%20we%20want.png)
+
+
+三大特性
+- confidentiality、integrity、authenticity
+
+
+#### Transport Layer Security (TLS)
+RFC5246:you use it every day
+
+##### TLS1.2
+![TLS-Shake](pics/8%20TLS%20Shake.png)
