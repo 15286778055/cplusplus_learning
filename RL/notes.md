@@ -95,3 +95,46 @@ Model-free：P、R函数未知（RL）
 RL -> Deep RL：从少量状态到数不清的状态
 
 值函数近似：用函数近似Q表格
+
+
+DQN 两大改进：
+- 经验池
+- 固定 Q-target
+
+
+
+
+
+### 4 基于策略梯度求解RL
+
+- 基于神经网络
+  - 通过拟合Q函数 再求最佳策略
+  - 先优化状态，argmaxQ 获得策略，得到`确定性策略`
+- 基于策略梯度
+  - 直接拟合策略
+  - 输出每个 action 的概率，可表示`随机策略`
+
+蒙特卡洛（Reinforce）
+时序差分（Actor-Critic）
+
+
+
+
+### 5 连续动作空间上求解RL
+
+离散动作 VS 连续动作
+![](pics/离散动作、连续动作.png)
+
+DDPG
+- 策略网络（Actor）
+- Q网络（Critic）
+- 两个 target 网络
+
+![](pics/DDPG.png)
+
+
+target 网络软更新
+![](pics/target软更新.png)
+
+
+![](pics/DDPG总结.png)
