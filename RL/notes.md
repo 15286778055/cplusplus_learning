@@ -117,6 +117,7 @@ DQN 两大改进：
 蒙特卡洛（Reinforce）
 时序差分（Actor-Critic）
 
+![](pics/神经网络求解RL.png)
 
 
 
