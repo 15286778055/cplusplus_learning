@@ -29,10 +29,15 @@ y = x.pow(2) + 0.2*torch.rand(x.size())
 
 
 # 构建网络
-net = Net(n_feature=1, n_hidden=10, n_output=1)
+# net = Net(n_feature=1, n_hidden=10, n_output=1)
+# 快速搭建
+net = torch.nn.Sequential(
+    torch.nn.Linear(1, 10),
+    torch.nn.ReLU(),
+    torch.nn.Linear(10, 1)
+)
 # 打印网络
 print(net)
-
 
 # 训练网络
 # 优化器
@@ -63,6 +68,30 @@ for t in range(200):
         plt.plot(x.data.numpy(), prediction.data.numpy(), 'r-', lw=5)
         plt.text(0.5, 0, 'Loss=%.4f' % loss.data.numpy(), fontdict={'size': 20, 'color': 'red'})
         plt.pause(0.1)
+
+# 保存网络
+torch.save(net, 'net.pkl')      # 保存整个网络
+torch.save(net.state_dict(), 'net_params.pkl')  # 只保存网络中的参数（速度快，占内存少）
+
+# 提取网络
+net2 = torch.load('net.pkl')    # 提取整个网络
+prediction2 = net2(x)
+
+net3 = torch.nn.Sequential(
+    torch.nn.Linear(1, 10),
+    torch.nn.ReLU(),
+    torch.nn.Linear(10, 1)
+)                               # 提取网络参数
+net3.load_state_dict(torch.load('net_params.pkl'))
+prediction3 = net3(x)
+
+prediction1 = net(x)
+
+
+if prediction1.equal(prediction2) and prediction1.equal(prediction3):
+    print('True')
+else:
+    print('False')
 
 
 
