@@ -85,4 +85,4 @@ if __name__ == '__main__':
                 pred_y = torch.max(test_output, 1)[1].data.numpy().squeeze()
                 accuracy = sum(pred_y == test_y.data.numpy()) / test_y.size(0)
                 # print(type(accuracy))
-                print('Epoch: ', epoch, '| train loss: %.4f' % loss, '| test accuracy: %.2f' % accuracy)
+                print('Step: ', step, '| train loss: %.4f' % loss, '| test accuracy: %.2f' % accuracy)
