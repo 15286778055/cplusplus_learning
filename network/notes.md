@@ -513,7 +513,7 @@ Reverse Path Broadcast( RPB )
 link layer
 CSMA/CD Protocol
 
-![](pics/7%20csma:cd.png)
+![](pics/7%20csmacd.png)
 
 
 #### Ethenet
