@@ -136,7 +136,7 @@ int main( int argc, char* argv[] )
             /* 已连接 socket 的 EPOLLIN */
             else if( events[i].events & EPOLLIN )
             {
-                if (users[sockfd].read()
+                if ( users[sockfd].read() )
                 {
                     /* 将当前 sockfd 对应的 http 对象加入到线程中？？？？不会重复?? */
                     pool->append( users + sockfd );
