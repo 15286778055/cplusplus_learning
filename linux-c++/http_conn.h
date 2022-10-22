@@ -3,6 +3,7 @@
 
 
 #include <unistd.h>
+#include <sys/uio.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/epoll.h>
@@ -10,12 +11,12 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <assert.h>
-#incldue <sys/stat.h>
+#include <sys/stat.h>
 #include <string.h>
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
-#incldue <sys/mman.h>
+#include <sys/mman.h>
 #include <stdarg.h>
 #include <errno.h>
 #include "locker.h"
@@ -50,9 +51,9 @@ public:
     /* 处理客户请求 */
     void process();
     /* 非阻塞读操作 */
-    void read();
+    bool read();
     /* 非阻塞写操作 */
-    void write();
+    bool write();
 
 private:
     /* 初始化连接 */

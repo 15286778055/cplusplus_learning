@@ -1,11 +1,11 @@
-#include <http_conn.h>
+#include "http_conn.h"
 
 const char* ok_200_title = "OK";
 const char* error_400_title = "Bad Request";
 const char* error_400_form = "Your request has bad syntax or is inherently impossible to satisfy.\n";
 const char* error_403_title = "Forbidden";
 const char* error_403_form = "You do not have permission to get file from this server.\n";
-cosnt char* error_404_title = "Not Found";
+const char* error_404_title = "Not Found";
 const char* error_404_form = "The requested file was not found on this server.\n";
 const char* error_500_title = "Internal Error";
 const char* error_500_form = "There was an unusual problem serving the requested file.\n";
@@ -299,7 +299,7 @@ bool http_conn::write()
     {
         modfd( m_epollfd, m_sockfd, EPOLLIN );
         init();
-        return ture;
+        return true;
     }
 
     while ( 1 )
@@ -369,12 +369,12 @@ bool http_conn::add_content_length( int content_len )
     return add_response("Content-Length: %d\r\n", content_len);
 }
 
-vool http_conn::add_linger()
+bool http_conn::add_linger()
 {
     return add_response("Connection: %s\r\n", m_linger == true ? "keep-alive" : "close");
 }
 
-bool http_conn::add_blank_line( const char* content)
+bool http_conn::add_blank_line()
 {
     return add_response("%s", "\r\n");
 }

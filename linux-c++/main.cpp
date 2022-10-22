@@ -1,7 +1,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <stdip.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
@@ -20,7 +20,7 @@
 extern int addfd( int epollfd, int fd, bool one_shot );
 extern int removefd( int epollfd, int fd );
 
-void addsig( int sig, void( hander )(int), bool restart = true)
+void addsig( int sig, void( handler )(int), bool restart = true)
 {
     struct sigaction sa;
     memset( &sa, '\0', sizeof( sa ) );
@@ -127,6 +127,8 @@ int main( int argc, char* argv[] )
                 /* 初始化 http 服务*/
                 /* connfd 对应的 第 connfd-1 个 http 对象 对这个 socket 服务*/
                 users[connfd].init( connfd, client_address );
+                const char* info = "Hello, It's xiaopeng's web server.\n";
+                send( connfd, info, strlen( info ), 0);
             }
             /* 已连接 socket 的 EPOLLRDHUP EPOLLHUP EPOLLERR */
             else if( events[i].events & ( EPOLLRDHUP | EPOLLHUP | EPOLLERR) )
