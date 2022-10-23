@@ -143,6 +143,11 @@ bool http_conn::read()
 
         m_read_idx += bytes_read;
     }
+    // printf("read: %s", m_read_buf+m_checked_idx);
+
+    // sleep(3);
+    // printf("read_idx: %d\n", m_read_idx);
+    // printf("checked_idx: %d\n\n\n", m_checked_idx);
     return true;
 }
 
@@ -217,11 +222,12 @@ http_conn::HTTP_CODE http_conn::parse_content( char* text )
 /* 主状态机。其分析请参考 8.6 节 */
 http_conn::HTTP_CODE http_conn::process_read()
 {
+    // printf("read: %s", m_read_buf+m_checked_idx);
     LINE_STATUS line_status = LINE_OK;
     HTTP_CODE ret = NO_REQUEST;
     char* text = 0;
 
-    while ( ( ( m_check_state == CHECK_STATE_CONTENT ) && ( line_status == LINE_OK ) ) || ( ( line_status == parse_line() ) == LINE_OK ) )
+    while ( ( ( m_check_state == CHECK_STATE_CONTENT ) && ( line_status == LINE_OK ) ) || ( ( line_status = parse_line() ) == LINE_OK ) )
     {
         text = get_line();
         m_start_line = m_checked_idx;
