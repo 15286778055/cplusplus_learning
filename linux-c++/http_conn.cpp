@@ -310,6 +310,10 @@ bool http_conn::write()
         return true;
     }
 
+    // 使用 send
+    // send( m_sockfd, m_write_buf, strlen( m_write_buf ), 0);
+    // send( m_sockfd, m_file_address, strlen( m_file_address ), 0);
+
     while ( 1 )
     {
         temp = writev( m_sockfd, m_iv, m_iv_count );
@@ -339,16 +343,17 @@ bool http_conn::write()
             {
                 init();
                 modfd( m_epollfd, m_sockfd, EPOLLIN );
+                std::cout << "Sending done with true!" << std::endl;
                 return true;
             }
             else
             {
                 modfd( m_epollfd, m_sockfd, EPOLLIN);
+                std::cout << "Sending done with false!" << std::endl;
                 return false;
             }
         }
     }
-    std::cout << "Sending done!" << std::endl;
 }
 
 /* 往写缓冲中写入待发送的数据 */
