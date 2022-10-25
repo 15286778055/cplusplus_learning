@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -16,6 +17,8 @@
 
 #define MAX_FD 65536
 #define MAX_EVENT_NUMBER 10000
+
+using namespace std;
 
 extern int addfd( int epollfd, int fd, bool one_shot );
 extern int removefd( int epollfd, int fd );
@@ -83,6 +86,14 @@ int main( int argc, char* argv[] )
     inet_pton( AF_INET, ip, &address.sin_addr );
     address.sin_port = htons( port );
 
+    // socket send buffer
+    int sendbuf = 60;
+    int len = sizeof(sendbuf);
+    setsockopt( listenfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, sizeof( sendbuf ) );
+    getsockopt( listenfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, ( socklen_t* )&len );
+    printf( "the tcp send buffer size after setting is %d\n", sendbuf );
+
+
     ret = bind( listenfd, ( struct sockaddr* )&address, sizeof( address ) );
     assert( ret >= 0 );
 
@@ -127,6 +138,7 @@ int main( int argc, char* argv[] )
                 /* 初始化 http 服务*/
                 /* connfd 对应的 第 connfd-1 个 http 对象 对这个 socket 服务*/
                 users[connfd].init( connfd, client_address );
+                std::cout << "New connection! "<< "\tip: "  << inet_ntoa(client_address.sin_addr) << "\tport:" << ntohs(client_address.sin_port) << std::endl;
                 const char* info = "Hello, It's xiaopeng's web server.\n";
                 send( connfd, info, strlen( info ), 0);
             }
@@ -138,6 +150,7 @@ int main( int argc, char* argv[] )
             /* 已连接 socket 的 EPOLLIN */
             else if( events[i].events & EPOLLIN )
             {
+                std::cout << "epoll in\n" << std::endl;
                 if ( users[sockfd].read() )
                 {
                     /* 将当前 sockfd 对应的 http 对象加入到线程中？？？？不会重复?? */
@@ -151,6 +164,7 @@ int main( int argc, char* argv[] )
             /* 已连接 socket 的 EPILLOUT */
             else if ( events[i].events & EPOLLOUT )
             {
+                std::cout << "epoll out\n" << std::endl;
                 if ( !users[sockfd].write() )
                 {
                     users[sockfd].close_conn();

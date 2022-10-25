@@ -1,7 +1,7 @@
 #ifndef HTTPCONNECTION_H
 #define HTTPCONNECTION_H
 
-
+#include <iostream>
 #include <unistd.h>
 #include <sys/uio.h>
 #include <signal.h>
@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 #include <assert.h>
 #include <sys/stat.h>
 #include <string.h>

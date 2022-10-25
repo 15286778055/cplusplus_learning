@@ -9,7 +9,7 @@ const char* error_404_title = "Not Found";
 const char* error_404_form = "The requested file was not found on this server.\n";
 const char* error_500_title = "Internal Error";
 const char* error_500_form = "There was an unusual problem serving the requested file.\n";
-const char* doc_root = "/var/www/html";
+const char* doc_root = "/home/xiaopeng/my_projects/linux-c++";
 
 int setnonblocking( int fd )
 {
@@ -231,7 +231,7 @@ http_conn::HTTP_CODE http_conn::process_read()
     {
         text = get_line();
         m_start_line = m_checked_idx;
-        printf( "got 1 http line: %s\n", text );
+        printf( "from %s:%d got 1 http line: %s\n", inet_ntoa(m_address.sin_addr), ntohs(m_address.sin_port), text );
 
         switch ( m_check_state )
         {
@@ -271,6 +271,8 @@ http_conn::HTTP_CODE http_conn::do_request()
     strcpy(m_real_file, doc_root);
     int len = strlen(doc_root);
     strncpy(m_real_file + len, m_url, FILENAME_LEN - len - 1);
+    std::cout << "The doc_root is: " << doc_root << std::endl;
+    std::cout << "The m_real_file is: " << m_real_file << std::endl;
     if (stat(m_real_file, &m_file_stat) < 0) return NO_RESOURCE;
 
     if (!(m_file_stat.st_mode & S_IROTH)) return FORBIDDEN_REQUEST;
@@ -311,8 +313,11 @@ bool http_conn::write()
     while ( 1 )
     {
         temp = writev( m_sockfd, m_iv, m_iv_count );
+        std::cout << "write temp: " << temp << std::endl;
         if (temp < -1 )
         {
+            printf("No write buffer\n");
+            std::cout << "No write buffer\n" << std::endl;
             /*如果TCP写缓冲没有空间，则等待下一轮 EPOLLOUT 事件。虽然在此期间，服务器无
 法立即接收到同一客户的下一个请求，但这可以保证连接的完整性*/
             if ( errno == EAGAIN )
@@ -343,6 +348,7 @@ bool http_conn::write()
             }
         }
     }
+    std::cout << "Sending done!" << std::endl;
 }
 
 /* 往写缓冲中写入待发送的数据 */
@@ -478,5 +484,6 @@ void http_conn::process()
     bool write_ret = process_write( read_ret );
     if ( !write_ret ) close_conn();
 
+    /* 这里将需要发送的内容写入待发送区，注册 EPOLLOUT，转由主线程去 send，而不是此http处理线程，从单一处理职能上说，这么设计确实不错，主线程负责 read和write */
     modfd( m_epollfd, m_sockfd, EPOLLOUT );
 }
