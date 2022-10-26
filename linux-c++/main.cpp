@@ -89,9 +89,16 @@ int main( int argc, char* argv[] )
     // socket send buffer
     int sendbuf = 60;
     int len = sizeof(sendbuf);
-    setsockopt( listenfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, sizeof( sendbuf ) );
+    // setsockopt( listenfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, sizeof( sendbuf ) );
     getsockopt( listenfd, SOL_SOCKET, SO_SNDBUF, &sendbuf, ( socklen_t* )&len );
     printf( "the tcp send buffer size after setting is %d\n", sendbuf );
+
+    // socket recieve buffer
+    sendbuf = 1153;
+    len = sizeof(sendbuf);
+    // setsockopt( listenfd, SOL_SOCKET, SO_RCVBUF, &sendbuf, sizeof( sendbuf ) );
+    getsockopt( listenfd, SOL_SOCKET, SO_RCVBUF, &sendbuf, ( socklen_t* )&len );
+    printf( "the tcp receive buffer size after setting is %d\n", sendbuf );
 
 
     ret = bind( listenfd, ( struct sockaddr* )&address, sizeof( address ) );

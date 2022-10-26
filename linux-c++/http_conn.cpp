@@ -300,9 +300,11 @@ void http_conn::unmap()
 /* 写 HTTP 响应 */
 bool http_conn::write()
 {
+    int header_size = m_write_idx;
     int temp = 0;
     int bytes_have_send = 0;
-    int bytes_to_send = m_write_idx;
+    // int bytes_to_send = m_write_idx;
+    int bytes_to_send = m_write_idx + m_file_stat.st_size;
     if (bytes_to_send == 0 )
     {
         modfd( m_epollfd, m_sockfd, EPOLLIN );
@@ -320,8 +322,7 @@ bool http_conn::write()
         std::cout << "write temp: " << temp << std::endl;
         if (temp < -1 )
         {
-            printf("No write buffer\n");
-            std::cout << "No write buffer\n" << std::endl;
+            // 这段代码存疑！！！
             /*如果TCP写缓冲没有空间，则等待下一轮 EPOLLOUT 事件。虽然在此期间，服务器无
 法立即接收到同一客户的下一个请求，但这可以保证连接的完整性*/
             if ( errno == EAGAIN )
@@ -333,10 +334,19 @@ bool http_conn::write()
             return false;
         }
 
+        if (temp == -1) {
+            /* 发送过快 */
+            std::cout << errno << std::endl;
+            sleep(0.8);
+            continue;
+        }
+        
+        /* 发送成功，需要重新配置 待发送区域 */
         bytes_to_send -= temp;
         bytes_have_send += temp;
-        if ( bytes_to_send <= bytes_have_send )
+        if ( bytes_to_send <= 0 )
         {
+            /* bytes_to_send 为 0 ，已经发送完毕 */
             /* 发送 HTTP 响应成功，根据 HTTP 请求中的 Connection 字段决定是否立即关闭连接 */
             unmap();
             if ( m_linger )
@@ -351,6 +361,26 @@ bool http_conn::write()
                 modfd( m_epollfd, m_sockfd, EPOLLIN);
                 std::cout << "Sending done with false!" << std::endl;
                 return false;
+            }
+        }
+        else if (bytes_to_send > 0) {
+            /* 仍有待发送数据 */
+            /* 重新装配数据 */
+
+            /* 需要比较已发送数据字节数 与 headers 占据数据字节数 */
+            if (bytes_have_send < header_size) {
+                /* headers 未发送完毕 */
+                m_iv[0].iov_base = m_write_buf + bytes_have_send;
+                m_iv[0].iov_len = m_write_idx - bytes_have_send;
+                m_iv[1].iov_base = m_file_address;
+                m_iv[1].iov_len = m_file_stat.st_size;
+                m_iv_count = 2;
+            }
+            else {
+                /* headers 已经发送完毕 */
+                m_iv[0].iov_base = m_file_address + bytes_have_send - header_size;
+                m_iv[0].iov_len = m_file_stat.st_size - bytes_have_send + header_size;
+                m_iv_count = 1;
             }
         }
     }
