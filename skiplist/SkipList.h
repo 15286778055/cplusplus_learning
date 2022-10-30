@@ -34,13 +34,13 @@ public:
     const SkipListNode<Key, Value>* search_element_by_key(Key key);
     int delete_element(Key key);
     int update_element(Key key, Value value);
-    /* 清除跳表 */
+    /* 删除跳表 */
     int clear();
     /* 是否含有某个键 */
     bool has_key(Key key);
     /* 获得新生成节点的随机索引层级 */
     int get_random_level();
-    /* 跳表展示 */
+    /* 打印跳表 */
     void display_skiplist();
     /* 跳表节点数、元素数量 */
     int size() const { return this->_element_count; }

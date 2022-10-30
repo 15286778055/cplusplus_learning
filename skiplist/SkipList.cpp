@@ -13,7 +13,7 @@ int SkipList<Key, Value>::get_random_level() {
     return k;
 }
 
-/* 展示跳表 */
+/* 打印跳表 */
 template <typename Key, typename Value>
 void SkipList<Key, Value>::display_skiplist() {
     std::cout << "Show Skip List ------------------------- " << std::endl;
@@ -65,7 +65,7 @@ int SkipList<Key, Value>::insert_element(Key key, Value value) {
         std::cout << "Key: " << key << ", exists" << std::endl;
         return -1;
     }
-
+    
 
     /* 2 插入节点 */
     /* 待插入位置的下个节点为空 或者 键 不等于 待插入的 key，此两种情况需要插入节点 */
@@ -196,7 +196,7 @@ bool SkipList<Key, Value>::has_key(Key key) {
     return false;
 }
 
-/* 清除跳表 */
+/* 删除跳表 */
 template <typename Key, typename Value>
 int SkipList<Key, Value>::clear() {
     /* 删除 header 索引层所有指针 */
@@ -205,7 +205,17 @@ int SkipList<Key, Value>::clear() {
     _skip_list_level = 0;
 
     /* 删除底层链表 */
-    SkipListNode<Key, Value>* cursor = _header;
-    while (cursor != nullptr)
-    
+    SkipListNode<Key, Value>* current = _header->forward[0];
+    _header->forward[0] = nullptr;
+    while (current != nullptr) {
+        auto deleted = current;
+        current = current->forward[0];
+        delete deleted;
+    }
+    _element_count = 0;
+    std::cout << "Clear successfully!" << std::endl;
+    return 0;
 }
+
+
+// TODO: 读写文件

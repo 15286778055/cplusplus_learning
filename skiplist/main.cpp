@@ -28,4 +28,7 @@ int main() {
     skiplist.has_key(2);
     skiplist.has_key(100);
 
+    skiplist.clear();
+    skiplist.display_skiplist();
+
 }
