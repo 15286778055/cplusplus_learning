@@ -31,4 +31,9 @@ int main() {
     skiplist.clear();
     skiplist.display_skiplist();
 
+    skiplist.dump_file("dumpfile");
+    skiplist.clear();
+    skiplist.load_file("dumpfile");
+    skiplist.display_skiplist();
+
 }

@@ -4,16 +4,21 @@
 #define __SKIP_LIST_H
 
 #include <iostream>
-// #include <fstream>
+#include <fstream>
 #include <string>
 #include <ctime>
 #include <random>
 
 #include "SkipListNode.h"
 
+std::string delimiter = ":";
 
 template <typename Key, typename Value>
 class SkipList {
+
+public:
+    typedef Key key_type;
+    typedef Value value_type;
 
 public:
     /* 构造、析构函数 */
@@ -25,7 +30,11 @@ public:
         /* 生成默认节点，key 应当是 Key 类型中最小可取值 */
         this->_header = new SkipListNode<Key, Value>(key, value, max_level);
     }
-    ~SkipList() { delete _header; }
+    ~SkipList() { 
+        if (_file_reader.is_open()) _file_reader.close();
+        if (_file_writer.is_open()) _file_writer.close();
+        delete _header;
+    }
 
 
 public:
@@ -45,8 +54,11 @@ public:
     /* 跳表节点数、元素数量 */
     int size() const { return this->_element_count; }
     /* 读写文件 */
-    int dump_file(std::string path, std::string name);
-    int load_file(std::string path, std::string name);
+    int dump_file(std::string path);
+    int load_file(std::string path);
+    /* 从 key:value 的键值对字符串中分离出 key 和 value */
+    void get_key_value_from_string(const std::string& str, std::string* key, std::string* value);
+    bool is_valid_string(const std::string& str);
 
 
 private:
@@ -63,8 +75,8 @@ private:
     int _element_count;
 
     /* 读写文件描述符 */
-    // std::ofstream _file_writer;
-    // std::ifstream _file_reader;
+    std::ofstream _file_writer;
+    std::ifstream _file_reader;
 };
 
 

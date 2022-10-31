@@ -218,4 +218,78 @@ int SkipList<Key, Value>::clear() {
 }
 
 
-// TODO: 读写文件
+/**
+ * 写到文件的方式：以 key: value 的形式 按行保存到文件
+ * 从文件读的方式：按行读取，并且重新 insert_element 构建跳表，整个跳表结构不保证和原先一致
+*/
+/* 写文件 */
+template <typename Key, typename Value>
+int SkipList<Key, Value>::dump_file(std::string path) {
+    std::cout << "Dump file start, path: " << path << std::endl;
+    
+    /* 打开文件 */
+    _file_writer.open(path);
+    SkipListNode<Key, Value>* current = _header->forward[0];
+
+    /* 遍历链表层节点 */
+    while (current != nullptr) {
+        // 写文件
+        _file_writer << current->get_key() << delimiter << current->get_value() << "\n";
+
+        // 循环
+        current = current->forward[0];
+    }
+    
+    /* 刷新缓冲，关闭文件 */
+    _file_writer.flush();
+    _file_writer.close();
+    std::cout << "Dump File successfully!" << std::endl;
+    return 0;
+
+}
+
+/* 读文件 */
+template <typename Key, typename Value>
+int SkipList<Key, Value>::load_file(std::string path) {
+    std::cout << "Load file start, path: " << path << std::endl;
+
+    /* 打开文件 */
+    _file_reader.open(path);
+
+    /* 逐行读取并构建跳表 */
+    std::string line;
+    std::string* key = new std::string();
+    std::string* value = new std::string();
+    while (getline(_file_reader, line)) {
+        /* 解析 key value */
+        get_key_value_from_string(line, key, value);
+        
+        if (key->empty() || value->empty()) continue;
+        
+        /* 插入节点 重新构建跳表 */
+        insert_element(static_cast<key_type>(*key), static_cast<value_type>(*value));
+    }
+    std::cout << "Load file successfully!" << std::endl;
+    delete key;
+    delete value;
+    _file_reader.close();
+    return 0;
+}
+
+/* 从 key:value 中分离 key 和 value */
+template <typename Key, typename Value>
+void SkipList<Key, Value>::get_key_value_from_string(const std::string& str, std::string* key, std::string* value) {
+    /* 检测 key:value 字符串合法性*/
+    if (is_valid_string(str)) return;
+
+    *key = str.substr(0, str.find(delimiter));
+    *value = str.substr(str.find(delimiter)+1, str.length());
+}
+
+/* 检测字符串是否满足 key:value 的要求*/
+template <typename Key, typename Value>
+bool SkipList<Key, Value>::is_valid_string(const std::string& str) {
+    if (str.empty()) return false;
+    if (str.find(delimiter) == std::string::npos) return false;
+    return true;
+}
