@@ -3,12 +3,16 @@
 #ifndef __RED_BLACK_TREE_HPP
 #define __RED_BLACK_TREE_HPP
 
+#include <iostream>
+
 /* 命名空间 xp */
 namespace xp {
 
 
 /* 颜色 */
 enum rbtnode_color { RED, BLACK };
+/* 左右子节点 */
+enum lr_child { L_CHILD, R_CHILD };
 
 
 /* 红黑树节点 */
@@ -21,26 +25,32 @@ public:
 
 public:
     /* 构造、析构函数 */
-    RBTNode(key_type key, value_type value, rbtnode_color color = RED): key(key), value(value), color(color), l_child(nullptr), r_child(nullptr), parent(nullptr) {};
+    RBTNode(key_type key, value_type value, rbtnode_color color = RED): key(key), value(value), color(color), parent(nullptr) { memset(child, 0, sizeof(RBTNode<Key, Value>*)*2); };
     /* 三根指针指向的区域不由当前节点分配，无需 delete */
     ~RBTNode() {}
 
 public:
+    void display() {
+        std::cout << "address: " << this << " key: " << get_key() << "  value: " << get_value() << "  color: " << get_node_color() << " parent: " << parent << " l_child: " << child[0] << " r_child: " << child[1] << std::endl;
+    }
+
+public:
     /* getter setter */
     key_type get_key() { return key; }
-    value_type get_value() { return key; }
+    value_type get_value() { return value; }
     int set_value(value_type value) { this->value = value; }
     rbtnode_color get_node_color() { return color; }
     int set_node_color(rbtnode_color color) { this->color = color; }
 
 public:
-    RBTNode* l_child;    /* 左右子节点指针、 父节点指针 */
-    RBTNode* r_child;
+    RBTNode* child[2];
+    // RBTNode* l_child;    /* 左右子节点指针、 父节点指针 */
+    // RBTNode* r_child;
     RBTNode* parent;
 
 private:
     key_type key;       /* 键值、节点颜色 */
-    key_type value;
+    value_type value;
     rbtnode_color color;
 };
 
@@ -60,7 +70,13 @@ public:
     RedBlackTree(): element_count(0), _header(nullptr) {}
     /* 头指针指向的区域不由当前节点分配，无需 delete */
     ~RedBlackTree() {}
-    
+
+public:
+    /* 为了保持红黑树平衡特性，新节点插入的调整 */
+    void insert_adjust(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
+    /* 工具：判断一个孩子是他爸爸的左孩子还是右孩子 */
+    int which_child(RBTNode<key_type, value_type>* node);
+
 public:
     /* 增删改查 */
     int insert_element(key_type key, value_type value);
