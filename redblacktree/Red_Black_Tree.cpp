@@ -63,141 +63,94 @@ int RedBlackTree<Key, Value>::insert_element(key_type key, value_type value) {
 template <typename Key, typename Value>
 void RedBlackTree<Key, Value>::insert_adjust(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
     
+    /* 进入此情况，代表父节点为红，那么一定存在祖父节点 */
     lr_child u_index =  which_child(p) ? L_CHILD : R_CHILD;
-    RBTNode<Key, Value>* u = p->parent->child[u_index];
-    if (u != nullptr && u->get_node_color() == RED) {
+    RBTNode<Key, Value>* g = p->parent;
+    RBTNode<Key, Value>* u = g->child[u_index];
+    if (u != nullptr && u->get_node_color() == RED) { /* recolor */
+        /* P 为红，U 为红 */
         // 改变颜色
         p->set_node_color(BLACK);
         u->set_node_color(BLACK);
         p->parent->set_node_color(RED);
-        // 如果 祖父节点是头节点，那么应当为黑色
-        if (p->parent == _header) _header->set_node_color(BLACK);
+        // 如果 祖父节点是头节点，那么应当为黑色并返回
+        if (p->parent == _header) {
+            _header->set_node_color(BLACK);
+            return;
+        }
 
         // 祖宗节点为 红 时，需要把 G 当作 N 递归处理
         if (p->parent->parent != nullptr && p->parent->parent->get_node_color() == RED) insert_adjust(p->parent->parent, p->parent);
         else return;
     }
-    else if (u == nullptr) {
-        /* P 为红，U 为红 */
-        if (p->get_node_color() == RED)
+    else { /* rotate */
+        /* P 为红，U为 nullptr 或 黑 */
 
-        /* P 为红，U为 nullptr */
-        if (p->get_node_color() == RED) {
-            // LL
-            if (!which_child(p) && !which_child(n)) {
-                insert_adjust_ll(p, n);
-                return;
+        if (!which_child(p)) { /* p 是 g 的左孩子 LL或者LR */
+            if (which_child(n)) { /* n 是 p 的右孩子 LR */
+                /* 先左旋 */
+                left_rotate(p);
+                n = p;
+                p = n->parent;
             }
-
-            // RR
-            if (which_child(p) && which_child(n)) {
-                insert_adjust_rr(p, n);
-                return;
+            // 再右旋
+            right_rotate(g);
+            // 改变节点颜色
+            auto tmp = p->get_node_color();
+            p->set_node_color(g->get_node_color());
+            g->set_node_color(tmp);
+            return;
+        }
+        else { /* p 是 g 的右孩子 RR或者RL */
+            if (!which_child(n)) { /* n 是 p 的左孩子 */
+                // 先右旋
+                right_rotate(p);
+                n = p;
+                p = n->parent;
             }
-
-            // LR
-            if (!which_child(p) && which_child(n)) {
-                insert_adjust_lr(p, n);
-                return;
-            }
-
-            // RL
-            if (which_child(p) && !which_child(n)) {
-                insert_adjust_rl(p, n);
-                return;
-            }
+            // 再左旋
+            left_rotate(g);
+            // 改变节点颜色
+            auto tmp = p->get_node_color();
+            p->set_node_color(g->get_node_color());
+            g->set_node_color(tmp);
+            return;
         }
     }
-    
-    
 }
 
 /* ll rr lr rl 调整 */
 template <typename Key, typename Value>
-void RedBlackTree<Key, Value>::insert_adjust_ll(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
-    // 右旋
-    // if (_header == p->parent) {
-    //     _header = _header->child[0];
-    //     _header->child[1] = _header->parent;
-    //     _header->parent = nullptr;
-    //     _header->child[1]->child[0] = nullptr;
-    //     _header->child[1]->parent = _header;
-    // }
-    // else {
-    //     p->parent->parent->child[which_child(p->parent)] = p;
-    //     p->child[1] = p->parent;
-    //     p->parent = p->parent->parent;
-    //     p->child[1]->parent = p;
-    //     p->child[1]->child[0] = nullptr;
-    //     p->child[1]->child[1] = nullptr;
-    // }
-    // // 变色
-    // p->set_node_color(BLACK);
-    // p->child[1]->set_node_color(RED);
-    
-    // 创建新连接
-    p->parent->child[1] = p->child[0];
-    n->parent = p->parent;
-    // 删除无效连接
-    p->child[0] = nullptr;
-    // 顺时针旋转节点
-    Key temp_key = n->get_key();
-    Value temp_value = n->get_value();
-    n->set_key(n->parent->get_key());
-    n->set_value(n->parent->get_value());
-    n->parent->set_key(p->get_key());
-    n->parent->set_value(p->get_value());
-    p->set_key(temp_key);
-    p->set_value(temp_value);
+void RedBlackTree<Key, Value>::right_rotate(RBTNode<key_type, value_type>* n) {
+    /* 右旋 */
+    RBTNode<Key, Value>* n_left = n->child[0];
+    n->child[0] = n_left->child[1];
+    if (n->child[0] != nullptr) n->child[0]->parent = n;
+
+    n_left->parent = n->parent;
+    if (n->parent == nullptr) _header = n_left;
+    else if (n == n->parent->child[0]) n->parent->child[0] = n_left;
+    else if (n == n->parent->child[1]) n->parent->child[1] = n_left;
+
+    n_left->child[1] = n;
+    n->parent = n_left;
 }
 
 /* rr */
 template <typename Key, typename Value>
-void RedBlackTree<Key, Value>::insert_adjust_rr(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
-    // 创建新连接
-    p->parent->child[0] = p->child[1];
-    n->parent = p->parent;
-    // 删除无效连接
-    p->child[1] = nullptr;
-    // 逆时针旋转节点
-    Key temp_key = n->get_key();
-    Value temp_value = n->get_value();
-    n->set_key(n->parent->get_key());
-    n->set_value(n->parent->get_value());
-    n->parent->set_key(p->get_key());
-    n->parent->set_value(p->get_value());
-    p->set_key(temp_key);
-    p->set_value(temp_value);
-}
+void RedBlackTree<Key, Value>::left_rotate(RBTNode<key_type, value_type>* n) {
+    /* 左旋 */
+    RBTNode<Key, Value>* n_right = n->child[1];
+    n->child[1] = n_right->child[0];
+    if (n->child[1] != nullptr) n->child[1]->parent = n;
 
-/* lr */
-template <typename Key, typename Value>
-void RedBlackTree<Key, Value>::insert_adjust_lr(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
-    /* 1 先左旋*/
-    // 创建新连接
-    p->child[0] = p->child[1];
-    // 删除无效连接
-    p->child[1] = nullptr;
-    // 交换节点信息
-    exchange_node(p, n);
-    
-    /* 2 再进行 ll 调整，右旋 */
-    insert_adjust_ll(p, n);
-}
+    n_right->parent = n->parent;
+    if (n->parent == nullptr) _header = n_right;
+    else if (n == n->parent->child[0]) n->parent->child[0] = n_right;
+    else if (n == n->parent->child[1]) n->parent->child[1] = n_right;
 
-/* rl */
-template <typename Key, typename Value>
-void RedBlackTree<Key, Value>::insert_adjust_rl(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
-    /* 1 先右旋*/
-    // 创建新连接
-    p->child[1] = p->child[0];
-    // 删除无效连接
-    p->child[0] = nullptr;
-    // 交换节点信息
-    exchange_node(p, n);
-    
-    /* 2 再进行 ll 调整，右旋 */
-    insert_adjust_rr(p, n);
+    n_right->child[0] = n;
+    n->parent = n_right;
 }
 
 /* 工具：判断一个孩子是他爸爸的左孩子还是右孩子 */

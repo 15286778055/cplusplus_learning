@@ -76,10 +76,8 @@ public:
     /* 为了保持红黑树平衡特性，新节点插入的调整 */
     void insert_adjust(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
     /* LL RR LR RL */
-    void insert_adjust_ll(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
-    void insert_adjust_rr(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
-    void insert_adjust_lr(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
-    void insert_adjust_rl(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n);
+    void right_rotate(RBTNode<key_type, value_type>* n);
+    void left_rotate(RBTNode<key_type, value_type>* n);
     /* 工具：判断一个孩子是他爸爸的左孩子还是右孩子 */
     int which_child(RBTNode<key_type, value_type>* node);
     /* 工具：交换两个节点的 key value */
