@@ -87,6 +87,7 @@ public:
     /* 增删改查 */
     int insert_element(key_type key, value_type value);
     int delete_element(key_type key);
+    void delete_node(RBTNode<Key, Value>* v);
     int update_element(key_type key, value_type value);
     RBTNode<key_type, value_type>* search_element_by_key(key_type key);
     /* 红黑树元素数量 */

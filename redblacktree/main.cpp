@@ -20,6 +20,7 @@ int main() {
         
         rbt.search_element_by_key(j);
     }
+    rbt.delete_element(23);
 
 
     // rbt.search_element_by_key(89);

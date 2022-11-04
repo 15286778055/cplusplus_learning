@@ -63,6 +63,8 @@ int RedBlackTree<Key, Value>::insert_element(key_type key, value_type value) {
 template <typename Key, typename Value>
 void RedBlackTree<Key, Value>::insert_adjust(RBTNode<key_type, value_type>* p, RBTNode<key_type, value_type>* n) {
     
+    /* 插入：叔节点是关键 we check the color of the uncle to decide the appropriate case */
+
     /* 进入此情况，代表父节点为红，那么一定存在祖父节点 */
     lr_child u_index =  which_child(p) ? L_CHILD : R_CHILD;
     RBTNode<Key, Value>* g = p->parent;
@@ -176,12 +178,18 @@ void RedBlackTree<Key, Value>::exchange_node(RBTNode<key_type, value_type>* n1, 
 template <typename Key, typename Value>
 int RedBlackTree<Key, Value>::delete_element(key_type key) {
 
-    
+    /* In the delete operation, we check the color of the sibling to decide the appropriate case. */
+    // 红黑树为空
+    if (_header == nullptr) return -1;
 
+    RBTNode<Key, Value>* v = search_element_by_key(key);
+    if (v == nullptr) return -1;
 
+    delete_node(v);
+}
 
-
-
+template <typename Key, typename Value>
+void RedBlackTree<Key, Value>::delete_node(RBTNode<Key, Value>* v) {
 
 }
 
